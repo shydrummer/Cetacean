@@ -56,28 +56,24 @@ Planet.prototype.update = function() {
 		//console.log('y: ' + this.playerRef.pivot.y);
 
 		//this.playerRef.rotation +=.025;
-		Phaser.Point.rotate(this.playerRef, this.position.x, this.position.y, .025, false,  Math.sqrt(((this.x - this.playerRef.x) * (this.x - this.playerRef.x)) + ((this.y - this.playerRef.y) * (this.y - this.playerRef.y))));
+		this.radius = Math.sqrt(((this.x - this.playerRef.x) * (this.x - this.playerRef.x)) + ((this.y - this.playerRef.y) * (this.y - this.playerRef.y)));
+
+		Phaser.Point.rotate(this.playerRef, this.position.x, this.position.y, .025, false, this.radius);
 
 		this.playerRef.acceleration = new Phaser.Point(0,0);
 		this.playerRef.velocity = new Phaser.Point(0,0);
 		
 	}
-	else 
-	{
-		//this.playerRef.body.acceleration = 0;
-	}
+
+	angle = Phaser.Point.angle(this.playerRef.position, this.position);
 
 	if(game.input.keyboard.isDown(Phaser.Keyboard.SPACEBAR))
-		{
-			//this.playerRef.acceleration = new Phaser.Point(-(this.playerRef.position.x-this.position.x), -(this.playerRef.position.y-this.position.y));
+	{
+		force =  (1000 - distance) / 200;
 			
-			game.physics.arcade.accelerateToObject(this.playerRef, new Phaser.Point(-(this.playerRef.position.x-this.position.x), -(this.playerRef.position.y-this.position.y)));
+		this.playerRef.body.velocity.x += Math.cos(angle) * force;
+		this.playerRef.body.velocity.y+= Math.sin(angle) * force;
+	}
 
-			var pointTime = new Phaser.Point(-(this.playerRef.position.x-this.position.x), -(this.playerRef.position.y-this.position.y));
 
-			
-		}
-
-		console.log('X: ' + this.playerRef.position.x);
-			console.log('Y: ' + this.playerRef.position.y);
 }

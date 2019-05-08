@@ -1,7 +1,7 @@
 //'use strict';
 
 //define game
-var game = new Phaser.Game(500, 500, Phaser.AUTO, 'phaser');
+var game = new Phaser.Game(1000, 700, Phaser.AUTO, 'phaser');
 
 var MainMenu = function(game) {
 };
@@ -71,8 +71,11 @@ Play.prototype = {
 		game.physics.enable(this.whale, Phaser.Physics.ARCADE);
 		this.whale.body.maxVelocity.setTo(this.MAX_VELOCITY, this.MAX_VELOCITY);
 
-		this.planet = new Planet(game, 250, 250, 'planet', this.whale, this.VOID_ACCELERATION, this.MAX_VELOCITY);
-		game.add.existing(this.planet);
+		this.planet1 = new Planet(game, 250, 250, 'planet', this.whale, this.VOID_ACCELERATION, this.MAX_VELOCITY);
+		game.add.existing(this.planet1);
+
+		this.planet2 = new Planet(game, 750, 400, 'planet', this.whale, this.VOID_ACCELERATION, this.MAX_VELOCITY);
+		game.add.existing(this.planet2);
 
 		//game.physics.enable(this.planet, Phaser.Physics.ARCADE);
 		
@@ -87,7 +90,8 @@ Play.prototype = {
 		this.game.physics.arcade.collide(this.whale, this.planet);
 
 		//rotate planet
-		this.planet.rotation +=.025;
+		this.planet1.rotation +=.025;
+		this.planet2.rotation +=.025;
 
 		if(game.input.keyboard.isDown(Phaser.Keyboard.UP))
 		{
