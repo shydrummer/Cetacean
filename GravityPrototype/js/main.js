@@ -63,7 +63,7 @@ Play.prototype = {
 		//whale player
 		this.whale = this.add.sprite(250, 450, 'whale');
 		this.whale.anchor.set(.5);
-		this.whale.scale.setTo(.25);
+		this.whale.scale.setTo(-.25, .25);
 
 		//physics
 		game.physics.startSystem(Phaser.Physics.ARCADE);
