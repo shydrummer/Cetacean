@@ -25,54 +25,31 @@ Planet.prototype.constructor = Planet;
 Planet.prototype.update = function() {
 	distance = Phaser.Math.distance(this.playerRef.position.x, this.playerRef.position.y, this.position.x, this.position.y);
 
-	/*if(distance <= 300 && distance >200)
-	{
-		//game.physics.arcade.accelerateToObject(this.playerRef, this, this.ACCELERATION, this.MAX_VELOCITY/5, this.MAX_VELOCITY/5);
-		if(this.playerRef.position.x <= this.position.x)
-		{
-			this.playerRef.position.x += 2;
-		}
-		else
-		{
-			this.playerRef.position.x -=2;
-		}
-
-		if(this.playerRef.position.y <= this.position.y)
-		{
-			this.playerRef.position.y += 2;
-		}
-		else
-		{
-			this.playerRef.position.y -=2;
-		}
-	}*/
 	if(distance <= 200 && !game.input.keyboard.isDown(Phaser.Keyboard.SPACEBAR))
 	{
 
-		//this.playerRef.pivot.x = this.position.x;
-		//this.playerRef.pivot.y = this.position.y;
-
-		//console.log('x: ' + this.playerRef.pivot.x);
-		//console.log('y: ' + this.playerRef.pivot.y);
-
-		//this.playerRef.rotation +=.025;
 		this.radius = Math.sqrt(((this.x - this.playerRef.x) * (this.x - this.playerRef.x)) + ((this.y - this.playerRef.y) * (this.y - this.playerRef.y)));
 
 		Phaser.Point.rotate(this.playerRef, this.position.x, this.position.y, .025, false, this.radius);
 
-		this.playerRef.acceleration = new Phaser.Point(0,0);
-		this.playerRef.velocity = new Phaser.Point(0,0);
-		
 	}
 
 	angle = Phaser.Point.angle(this.playerRef.position, this.position);
 
-	if(game.input.keyboard.isDown(Phaser.Keyboard.SPACEBAR))
+	if(game.input.keyboard.justPressed(Phaser.Keyboard.SPACEBAR))
 	{
+		this.playerRef.body.velocity.x = Math.cos(angle) * 200;
+		this.playerRef.body.velocity.y = Math.sin(angle) * 200;
+
 		force =  (1000 - distance) / 200;
 			
-		this.playerRef.body.velocity.x += Math.cos(angle) * force;
-		this.playerRef.body.velocity.y+= Math.sin(angle) * force;
+		this.playerRef.body.velocity.x -= Math.cos(angle) * force;
+		this.playerRef.body.velocity.y-= Math.sin(angle) * force;
+	}
+	else
+	{
+		this.playerRef.acceleration = new Phaser.Point(0,0);
+		this.playerRef.velocity = new Phaser.Point(0,0);
 	}
 
 

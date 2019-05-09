@@ -56,10 +56,6 @@ Play.prototype = {
 		this.spaceBG = this.add.sprite(0, 0, 'spaceBG');
 		this.spaceBG.scale.setTo(this.HALFSCALE);
 
-		//planet
-		//this.planet = this.add.sprite(this.world.centerX, this.world.centerY, 'planet')
-		
-
 		//whale player
 		this.whale = this.add.sprite(250, 450, 'whale');
 		this.whale.anchor.set(.5);
@@ -77,10 +73,6 @@ Play.prototype = {
 		this.planet2 = new Planet(game, 750, 400, 'planet', this.whale, this.VOID_ACCELERATION, this.MAX_VELOCITY);
 		game.add.existing(this.planet2);
 
-		//game.physics.enable(this.planet, Phaser.Physics.ARCADE);
-		
-
-		//give planet gravity
 		
 
 	},
