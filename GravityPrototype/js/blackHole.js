@@ -21,17 +21,16 @@ BlackHole.prototype = Object.create(Phaser.Sprite.prototype);
 BlackHole.prototype.constructor = BlackHole;
 
 BlackHole.prototype.update = function() {
+	//check distance
 	distance = Phaser.Math.distance(this.playerRef.position.x, this.playerRef.position.y, this.position.x, this.position.y);
 
+	//in gravitational pull
 	if(distance < 200)
 	{
+		//gravity fwooooooosh
 		game.physics.arcade.accelerateToObject(this.playerRef, this, this.ACCELERATION, this.MAX_VELOCITY/5, this.MAX_VELOCITY/5);
 	}
 
-	game.physics.arcade.collide(this.playerRef, this, this.killWhale)
+	
 
-}
-
-BlackHole.prototype.killWhale = function() {
-	this.playerRef.body.kill();
 }

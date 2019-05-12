@@ -1,10 +1,13 @@
 //obstacles that kill the player
 function Planet(game, xPos, yPos, key, player, acceleration, maxVel) {
+	//extend sprite object
 	Phaser.Sprite.call(this, game, xPos, yPos, key);
 
+	//has physics can't move
 	game.physics.enable(this, Phaser.Physics.ARCADE);
 	this.body.immovable = true;
 
+	//set anchor and scale
 	this.anchor.set(.5, .5);
 	this.scale.setTo(.1);
 
@@ -15,6 +18,7 @@ function Planet(game, xPos, yPos, key, player, acceleration, maxVel) {
 	this.MAX_VELOCITY = maxVel;
 	this.ACCELERATION = acceleration;
 
+	//player is not yet orbiting
 	this.orbiting = false;
 }
 
@@ -22,7 +26,10 @@ Planet.prototype = Object.create(Phaser.Sprite.prototype);
 Planet.prototype.constructor = Planet;
 
 Planet.prototype.update = function() {
+	//check distance between player and planet
 	distance = Phaser.Math.distance(this.playerRef.position.x, this.playerRef.position.y, this.position.x, this.position.y);
+
+	//turn off acceleration if caught in orbit
 	if(this.orbiting == false && distance <= 200)
 	{
 		this.playerRef.body.velocity = new Phaser.Point(0,0);
@@ -30,9 +37,11 @@ Planet.prototype.update = function() {
 		console.log("set to 0");
 	}
 
+	//in orbit
 	if(distance <= 200)
 	{
 		this.orbiting = true;
+		//continue orbiting
 		if(!game.input.keyboard.isDown(Phaser.Keyboard.SPACEBAR))
 		{
 
@@ -42,8 +51,10 @@ Planet.prototype.update = function() {
 
 		}
 
+		//calculate takeoff angle
 		angle = Phaser.Point.angle(this.playerRef.position, this.position);
 
+		//launch
 		if(game.input.keyboard.justPressed(Phaser.Keyboard.SPACEBAR))
 		{
 			this.playerRef.body.velocity.x = Math.cos(angle) * 200;
@@ -57,9 +68,14 @@ Planet.prototype.update = function() {
 		}
 		else
 		{
+			//stop
 			this.playerRef.body.acceleration = new Phaser.Point(0,0);
 		}
 	}
 
+	//out of orbit
+	if(distance > 220){
+		this.orbiting = false;
+	}
 
 }

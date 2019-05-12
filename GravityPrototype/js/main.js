@@ -1,4 +1,4 @@
-//'use strict';
+'use strict';
 
 //define game
 var game = new Phaser.Game(1000, 700, Phaser.AUTO, 'phaser');
@@ -69,6 +69,8 @@ Play.prototype = {
 		game.physics.enable(this.whale, Phaser.Physics.ARCADE);
 		this.whale.body.maxVelocity.setTo(this.MAX_VELOCITY, this.MAX_VELOCITY);
 
+		game.world.setBounds(0, 0, 2000, 10000);
+
 		this.planet1 = new Planet(game, 250, 250, 'planet', this.whale, this.VOID_ACCELERATION, this.MAX_VELOCITY);
 		game.add.existing(this.planet1);
 
@@ -78,6 +80,8 @@ Play.prototype = {
 
 		this.blackHole = new BlackHole(game, 800, 50, 'hole', this.whale, this.VOID_ACCELERATION, this.MAX_VELOCITY);
 		game.add.existing(this.blackHole);
+
+		game.camera.follow(this.whale, Phaser.Camera.FOLLOW_TOPDOWN);
 	},
 
 	update: function() {
