@@ -11,11 +11,12 @@ MainMenu.prototype = {
 	},
 
 	preload: function() {
-
+		this.load.path = 'assets/img/';
+		this.load.image('MainMenu', 'MenuScreen.png');
 	},
 
 	create: function() {
-
+		this.menu = this.add.sprite(0, 0, 'MainMenu');
 	},
 
 	update: function(){
@@ -48,6 +49,7 @@ Play.prototype = {
 		this.load.image('spaceBG', 'space.png');
 		this.load.image('planet', 'planet.png');
 		this.load.image('whale', 'whale.png');
+		this.load.image('hole', 'black hole.png');
 	},
 
 	create: function() {
@@ -73,13 +75,17 @@ Play.prototype = {
 		this.planet2 = new Planet(game, 750, 400, 'planet', this.whale, this.VOID_ACCELERATION, this.MAX_VELOCITY);
 		game.add.existing(this.planet2);
 
-		
 
+		this.blackHole = new BlackHole(game, 800, 50, 'hole', this.whale, this.VOID_ACCELERATION, this.MAX_VELOCITY);
+		game.add.existing(this.blackHole);
 	},
 
 	update: function() {
 		//collisions
 		this.game.physics.arcade.collide(this.whale, this.planet);
+
+
+		game.physics.arcade.overlap(this.whale, this.blackHole, this.killWhale, null, this);
 
 		//rotate planet
 		this.planet1.rotation +=.025;
@@ -87,22 +93,27 @@ Play.prototype = {
 
 		if(game.input.keyboard.isDown(Phaser.Keyboard.UP))
 		{
-			this.whale.position.y -= 5;
+			this.whale.position.y -= 1;
 		}
 		else if(game.input.keyboard.isDown(Phaser.Keyboard.DOWN))
 		{
-			this.whale.position.y += 5;
+			this.whale.position.y += 1;
 		}
 		else if(game.input.keyboard.isDown(Phaser.Keyboard.LEFT))
 		{
-			this.whale.position.x -= 5;
+			this.whale.position.x -= 1;
 		}
 		else if(game.input.keyboard.isDown(Phaser.Keyboard.RIGHT))
 		{
-			this.whale.position.x += 5;
+			this.whale.position.x += 1;
 		}
 
 	},
+
+	killWhale: function() {
+		this.whale.kill();
+		this.state.start('GameOver');
+	}
 }
 
 var GameOver = function(game) {};
@@ -111,13 +122,19 @@ GameOver.prototype = {
 	init: function(){
 	},
 
-	preload: function(){
+	preload: function() {
+		this.load.path = 'assets/img/';
+		this.load.image('OverScreen', 'GameOverScreen.png');
 	},
 
 	create: function() {
+		this.gameOver = this.add.sprite(0, 0, 'OverScreen');
 	},
 
 	update: function() {
+		if(this.input.keyboard.isDown(Phaser.Keyboard.SPACEBAR)){
+			this.state.start('Play');
+		}
 	}
 }
 

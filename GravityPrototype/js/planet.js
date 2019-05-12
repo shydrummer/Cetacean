@@ -14,6 +14,8 @@ function Planet(game, xPos, yPos, key, player, acceleration, maxVel) {
 	//"constants"
 	this.MAX_VELOCITY = maxVel;
 	this.ACCELERATION = acceleration;
+
+	this.orbiting = false;
 }
 
 Planet.prototype = Object.create(Phaser.Sprite.prototype);
@@ -21,9 +23,16 @@ Planet.prototype.constructor = Planet;
 
 Planet.prototype.update = function() {
 	distance = Phaser.Math.distance(this.playerRef.position.x, this.playerRef.position.y, this.position.x, this.position.y);
+	if(this.orbiting == false && distance <= 200)
+	{
+		this.playerRef.body.velocity = new Phaser.Point(0,0);
+		this.playerRef.body.acceleration = new Phaser.Point(0,0);
+		console.log("set to 0");
+	}
 
 	if(distance <= 200)
 	{
+		this.orbiting = true;
 		if(!game.input.keyboard.isDown(Phaser.Keyboard.SPACEBAR))
 		{
 
@@ -44,17 +53,13 @@ Planet.prototype.update = function() {
 			
 			this.playerRef.body.velocity.x -= Math.cos(angle) * force;
 			this.playerRef.body.velocity.y-= Math.sin(angle) * force;
+			console.log("here");
 		}
 		else
 		{
 			this.playerRef.body.acceleration = new Phaser.Point(0,0);
-			//this.playerRef.body.velocity = new Phaser.Point(0,0);
 		}
 	}
-
-
-
-	
 
 
 }
