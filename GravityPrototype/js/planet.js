@@ -9,7 +9,7 @@ function Planet(game, xPos, yPos, key, player, acceleration, maxVel) {
 
 	//set anchor and scale
 	this.anchor.set(.5, .5);
-	this.scale.setTo(.1);
+	this.scale.setTo(.45);
 
 	//reference to the player object
 	this.playerRef = player;

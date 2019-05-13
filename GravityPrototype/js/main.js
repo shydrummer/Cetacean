@@ -50,8 +50,8 @@ Play.prototype = {
 		// preload assets
 		this.load.path = 'assets/img/';
 		this.load.image('spaceBG', 'space.png');
-		this.load.image('planet', 'planet.png');
-		this.load.image('whale', 'whale.png');
+		this.load.image('planet', 'littleplaentVariation1.png');
+		this.load.image('whale', 'SpaceWhale.png');
 		this.load.image('hole', 'black hole.png');
 	},
 
@@ -123,6 +123,10 @@ Play.prototype = {
 		//rotate planet
 		this.planet1.rotation +=.025;
 		this.planet2.rotation +=.025;
+		this.planet3.rotation +=.025;
+		this.planet4.rotation +=.025;
+		this.planet5.rotation +=.025;
+		this.planet6.rotation +=.025;
 
 
 		//whale "nudges"
