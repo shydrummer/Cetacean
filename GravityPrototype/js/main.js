@@ -15,6 +15,10 @@ MainMenu.prototype = {
 		//load images
 		this.load.path = 'assets/img/';
 		this.load.image('MainMenu', 'MenuScreen.png');
+
+		this.load.path = 'assets/audio/';
+		game.load.audio('theme', ['space_whale_temp.mp3']);
+		game.load.audio('launch', ['launch_sound.wav']);
 	},
 
 	create: function() {
@@ -24,6 +28,10 @@ MainMenu.prototype = {
 
 	update: function(){
 		//menu logic
+		this.beats = game.add.audio('theme');
+		this.beats.play('', 0, 0.5, true);	
+		this.beats.volume = 0.05;
+
 		if(this.input.keyboard.isDown(Phaser.Keyboard.SPACEBAR)){
 			this.state.start('Play');
 		}
@@ -53,6 +61,7 @@ Play.prototype = {
 		this.load.image('planet', 'littleplaentVariation1.png');
 		this.load.image('whale', 'SpaceWhale.png');
 		this.load.image('hole', 'black hole.png');
+
 	},
 
 	create: function() {

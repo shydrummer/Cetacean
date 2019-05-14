@@ -26,6 +26,9 @@ Planet.prototype = Object.create(Phaser.Sprite.prototype);
 Planet.prototype.constructor = Planet;
 
 Planet.prototype.update = function() {
+
+	this.launch = game.add.audio('launch');
+	this.launch.volume = 0.3;
 	//check distance between player and planet
 	distance = Phaser.Math.distance(this.playerRef.position.x, this.playerRef.position.y, this.position.x, this.position.y);
 
@@ -49,6 +52,7 @@ Planet.prototype.update = function() {
 
 			Phaser.Point.rotate(this.playerRef, this.position.x, this.position.y, .025, false, this.radius);
 
+
 		}
 
 		//calculate takeoff angle
@@ -57,6 +61,9 @@ Planet.prototype.update = function() {
 		//launch
 		if(game.input.keyboard.justPressed(Phaser.Keyboard.SPACEBAR))
 		{
+
+			this.launch.play('', 0, 1, false);	
+
 			this.playerRef.body.velocity.x = Math.cos(angle) * 200;
 			this.playerRef.body.velocity.y = Math.sin(angle) * 200;
 
