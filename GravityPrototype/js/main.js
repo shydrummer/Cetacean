@@ -1,7 +1,7 @@
 'use strict';
 
 //define game
-var game = new Phaser.Game(1000, 700, Phaser.AUTO, 'phaser');
+var game = new Phaser.Game(1200, 600, Phaser.AUTO, 'phaser');
 var style = { font: '24px Helvetica', fill: '#FFF', align: "center" };
 
 var MainMenu = function(game) {
@@ -70,16 +70,18 @@ Play.prototype = {
 		this.spaceBG = this.add.sprite(0, 0, 'spaceBG');
 		this.spaceBG.scale.setTo(this.HALFSCALE);
 
-		//whale player
-		this.whale = this.add.sprite(250, 450, 'whale');
-		this.whale.anchor.set(.5);
-		this.whale.scale.setTo(-.25, .25);
-
 		//physics
+		game.physics.startSystem(Phaser.Physics.P2JS);
 		game.physics.startSystem(Phaser.Physics.ARCADE);
 
-		game.physics.enable(this.whale, Phaser.Physics.ARCADE);
-		this.whale.body.maxVelocity.setTo(this.MAX_VELOCITY, this.MAX_VELOCITY);
+		//whale player
+		this.whale = this.add.sprite(250, 450, 'whale');
+
+		game.physics.p2.enable(this.whale, true);
+		this.whale.body.setCircle(40);
+
+		this.whale.anchor.set(.5);
+		this.whale.scale.setTo(-.25, .25);
 
 		//set world bounds
 		game.world.setBounds(0, 0, 10000, 1000);
@@ -118,44 +120,31 @@ Play.prototype = {
 
 		//add camera with 200x200 deadzone
 		game.camera.follow(this.whale, Phaser.Camera.FOLLOW_TOPDOWN);
+
+		this.cursors = game.input.keyboard.createCursorKeys();
 	},
 
 	update: function() {
-		//collisions
-		this.game.physics.arcade.collide(this.whale, this.planet);
+		//rotate planets
+		this.planet1.body.rotation +=.025;
+		this.planet2.body.rotation +=.025;
+		this.planet3.body.rotation +=.025;
+		this.planet4.body.rotation +=.025;
+		this.planet5.body.rotation +=.025;
+		this.planet6.body.rotation +=.025;
 
-		//check collision with black hole
-		game.physics.arcade.overlap(this.whale, this.blackHole1, this.killWhale, null, this);
+		//this.whale.body.rotation +=.0125;
 
-		game.physics.arcade.overlap(this.whale, this.blackHole2, this.killWhale, null, this);
-
-		//rotate planet
-		this.planet1.rotation +=.025;
-		this.planet2.rotation +=.025;
-		this.planet3.rotation +=.025;
-		this.planet4.rotation +=.025;
-		this.planet5.rotation +=.025;
-		this.planet6.rotation +=.025;
-
-
-		//whale "nudges"
-		if(game.input.keyboard.isDown(Phaser.Keyboard.UP))
-		{
-			this.whale.position.y -= 1;
-		}
-		else if(game.input.keyboard.isDown(Phaser.Keyboard.DOWN))
-		{
-			this.whale.position.y += 1;
-		}
-		else if(game.input.keyboard.isDown(Phaser.Keyboard.LEFT))
-		{
-			this.whale.position.x -= 1;
-		}
-		else if(game.input.keyboard.isDown(Phaser.Keyboard.RIGHT))
-		{
-			this.whale.position.x += 1;
-		}
-
+		if(this.cursors.left.isDown) {
+			this.whale.body.velocity.x = -this.MAX_VELOCITY;
+		} else if(this.cursors.right.isDown) {
+			this.whale.body.velocity.x = this.MAX_VELOCITY;
+		} 
+		if(this.cursors.up.isDown) {
+			this.whale.body.velocity.y = -this.MAX_VELOCITY;
+		} else if(this.cursors.down.isDown) {
+			this.whale.body.velocity.y = this.MAX_VELOCITY;
+		} 
 
 		if(this.whale.position.y < -200 || this.whale.position.y > 1000)
 		{

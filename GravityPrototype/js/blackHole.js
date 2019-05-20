@@ -2,8 +2,8 @@
 function BlackHole(game, xPos, yPos, key, player, acceleration, maxVel) {
 	Phaser.Sprite.call(this, game, xPos, yPos, key);
 
-	game.physics.enable(this, Phaser.Physics.ARCADE);
-	this.body.immovable = true;
+	game.physics.p2.enable(this, false);
+	this.body.static = true;
 
 	this.anchor.set(.5, .5);
 
@@ -28,7 +28,7 @@ BlackHole.prototype.update = function() {
 	if(distance < 200)
 	{
 		//gravity fwooooooosh
-		game.physics.arcade.accelerateToObject(this.playerRef, this, this.ACCELERATION, this.MAX_VELOCITY/5, this.MAX_VELOCITY/5);
+		//game.physics.arcade.accelerateToObject(this.playerRef, this, this.ACCELERATION, this.MAX_VELOCITY/5, this.MAX_VELOCITY/5);
 	}
 
 	
