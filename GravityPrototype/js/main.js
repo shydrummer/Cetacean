@@ -15,6 +15,7 @@ MainMenu.prototype = {
 		//load images
 		this.load.path = 'assets/img/';
 		this.load.image('MainMenu', 'MenuScreen.png');
+		this.load.image('TestSprite', 'catNoBanan.png');
 
 		this.load.path = 'assets/audio/';
 		game.load.audio('theme', ['space_whale_temp.mp3']);
@@ -23,7 +24,20 @@ MainMenu.prototype = {
 
 	create: function() {
 		//display image
-		this.menu = this.add.sprite(0, 0, 'MainMenu');
+		//this.menu = this.add.sprite(0, 0, 'MainMenu');
+		this.testButton1 = this.add.sprite(200, 100, 'TestSprite');
+		this.testButton1.scale.setTo(.25);
+
+		this.testButton2 = this.add.sprite(200, 300, 'TestSprite');
+		this.testButton2.scale.setTo(.25);
+
+		this.testButton3 = this.add.sprite(200, 500, 'TestSprite');
+		this.testButton3.scale.setTo(.25);
+
+		this.buttons = [this.testButton1, this.testButton2, this.testButton3];
+
+		this.buttons[0].tint = 0xfacade;
+		this.currentButton = 0;
 	},
 
 	update: function(){
@@ -32,8 +46,43 @@ MainMenu.prototype = {
 		this.beats.play('', 0, 0.5, true);	
 		this.beats.volume = 0.05;
 
-		if(this.input.keyboard.isDown(Phaser.Keyboard.SPACEBAR)){
-			this.state.start('Play');
+		if(this.input.keyboard.justPressed(Phaser.Keyboard.DOWN))
+		{
+			this.buttons[this.currentButton].tint = 0xFFFFFFFF;
+			this.currentButton ++;
+			if(this.currentButton > this.buttons.length-1)
+			{
+				this.currentButton = 0;
+			}
+
+			this.buttons[this.currentButton].tint = 0xfacade;
+		}
+		else if(this.input.keyboard.justPressed(Phaser.Keyboard.UP))
+		{
+			this.buttons[this.currentButton].tint = 0xFFFFFFFF;
+			this.currentButton --;
+			if(this.currentButton < 0)
+			{
+				this.currentButton = this.buttons.length-1;
+			}
+
+			this.buttons[this.currentButton].tint = 0xfacade;
+		}
+
+		if(this.input.keyboard.justPressed(Phaser.Keyboard.ENTER))
+		{
+			if(this.currentButton == 0)
+			{
+				this.state.start('Play');
+			}
+			else if(this.currentButton == 1)
+			{
+				//go to directions
+			}
+			else if(this.currentButton == 2)
+			{
+				//go to credits/social links
+			}
 		}
 	}
 }
@@ -133,8 +182,9 @@ Play.prototype = {
 		this.planet5.body.rotation +=.025;
 		this.planet6.body.rotation +=.025;
 
-		//this.whale.body.rotation +=.0125;
-
+		
+		//WHALE MVMT FOR TESTING ONLY
+		//REMOVE FOR FINAL GAME
 		if(this.cursors.left.isDown) {
 			this.whale.body.velocity.x = -this.MAX_VELOCITY;
 		} else if(this.cursors.right.isDown) {
@@ -145,11 +195,15 @@ Play.prototype = {
 		} else if(this.cursors.down.isDown) {
 			this.whale.body.velocity.y = this.MAX_VELOCITY;
 		} 
+		//END REMOVE
 
+		//out of bounds game over
 		if(this.whale.position.y < -200 || this.whale.position.y > 1000)
 		{
 			this.state.start('GameOver');
 		}
+
+		//passing the finish line
 		if(this.whale.position.x > 2200)
 		{
 			this.state.start('Victory');

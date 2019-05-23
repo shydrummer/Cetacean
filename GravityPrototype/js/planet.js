@@ -1,4 +1,4 @@
-//obstacles that kill the player
+//this is where the bugs live
 function Planet(game, xPos, yPos, key, player, acceleration, maxVel) {
 	//extend sprite object
 	Phaser.Sprite.call(this, game, xPos, yPos, key);
@@ -42,13 +42,19 @@ Planet.prototype.update = function() {
 			/*this.radius = Math.sqrt(((this.x - this.playerRef.x) * (this.x - this.playerRef.x)) + ((this.y - this.playerRef.y) * (this.y - this.playerRef.y)));
 
 			Phaser.Point.rotate(this.playerRef, this.position.x, this.position.y, .025, false, this.radius);*/
-			this.constraint = game.physics.p2.createRevoluteConstraint(this, [200,0], this.playerRef, [0,0]);
+			console.log("x" + (this.playerRef.position.x-this.position.x));
+			console.log("y" + (this.playerRef.position.y-this.position.y));
+
+
+			this.constraint = game.physics.p2.createRevoluteConstraint(this, [ this.playerRef.world.x-this.world.x, this.playerRef.world.y-this.world.y], this.playerRef, [0,0]);
 			console.log("running");
 
 		}
 
 		//calculate takeoff angle
-		//angle = Phaser.Point.angle(this.playerRef.position, this.position);
+		/*angle = Phaser.Point.angle(this.playerRef.position, this.position);
+		this.playerRef.body.rotation -= angle;*/
+		//this.playerRef.body.rotateLeft(50);
 	}
 	else if(distance<=200 && this.orbiting)
 	{
