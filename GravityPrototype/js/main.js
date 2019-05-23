@@ -14,8 +14,12 @@ MainMenu.prototype = {
 	preload: function() {
 		//load images
 		this.load.path = 'assets/img/';
-		this.load.image('MainMenu', 'MenuScreen.png');
-		this.load.image('TestSprite', 'catNoBanan.png');
+		this.load.image('MainMenu', 'MainMenu.png');
+		this.load.image("frontWave", 'TopWaves.png');
+		this.load.image('backWave', 'BottomWaves.png');
+		this.load.image('PlayButton', 'PlayButton.png');
+		this.load.image('InstructionButton', 'InstructionButton.png');
+		this.load.image('CreditButton', 'CreditsButton.png');
 
 		this.load.path = 'assets/audio/';
 		game.load.audio('theme', ['space_whale_temp.mp3']);
@@ -24,19 +28,26 @@ MainMenu.prototype = {
 
 	create: function() {
 		//display image
-		//this.menu = this.add.sprite(0, 0, 'MainMenu');
-		this.testButton1 = this.add.sprite(200, 100, 'TestSprite');
-		this.testButton1.scale.setTo(.25);
+		this.menu = this.add.sprite(0, 0, 'MainMenu');
 
-		this.testButton2 = this.add.sprite(200, 300, 'TestSprite');
-		this.testButton2.scale.setTo(.25);
+		this.wave2 = this.add.sprite(0, 155, 'backWave');
+		this.wave4 = this.add.sprite(-1200, 155, 'backWave');
 
-		this.testButton3 = this.add.sprite(200, 500, 'TestSprite');
-		this.testButton3.scale.setTo(.25);
+		this.wave1 = this.add.sprite(0, 155, 'frontWave');
+		this.wave3 = this.add.sprite(1200, 155, 'frontWave');
+
+		this.testButton1 = this.add.sprite(800, 275, 'PlayButton');
+
+		this.testButton2 = this.add.sprite(800, 375, 'InstructionButton');
+
+		this.testButton3 = this.add.sprite(800, 475, 'CreditButton');
 
 		this.buttons = [this.testButton1, this.testButton2, this.testButton3];
 
-		this.buttons[0].tint = 0xfacade;
+		this.buttons[0].tint = 0xffffff;
+		this.buttons[1].tint = 0xA0A0A0;
+		this.buttons[2].tint = 0xA0A0A0;
+
 		this.currentButton = 0;
 	},
 
@@ -46,27 +57,43 @@ MainMenu.prototype = {
 		this.beats.play('', 0, 0.5, true);	
 		this.beats.volume = 0.05;
 
+		this.wave1.position.x --;
+		this.wave3.position.x --;
+		if(this.wave1.position.x < -1200)
+		{
+			this.wave1.position.x = 0;
+			this.wave3.position.x = 1200;
+		}
+
+		this.wave2.position.x ++;
+		this.wave4.position.x ++;
+		if(this.wave2.position.x > 1200)
+		{
+			this.wave2.position.x = 0;
+			this.wave4.position.x = -1200;
+		}
+
 		if(this.input.keyboard.justPressed(Phaser.Keyboard.DOWN))
 		{
-			this.buttons[this.currentButton].tint = 0xFFFFFFFF;
+			this.buttons[this.currentButton].tint =  0xA0A0A0;
 			this.currentButton ++;
 			if(this.currentButton > this.buttons.length-1)
 			{
 				this.currentButton = 0;
 			}
 
-			this.buttons[this.currentButton].tint = 0xfacade;
+			this.buttons[this.currentButton].tint = 0xffffff;
 		}
 		else if(this.input.keyboard.justPressed(Phaser.Keyboard.UP))
 		{
-			this.buttons[this.currentButton].tint = 0xFFFFFFFF;
+			this.buttons[this.currentButton].tint =  0xA0A0A0;
 			this.currentButton --;
 			if(this.currentButton < 0)
 			{
 				this.currentButton = this.buttons.length-1;
 			}
 
-			this.buttons[this.currentButton].tint = 0xfacade;
+			this.buttons[this.currentButton].tint = 0xffffff;
 		}
 
 		if(this.input.keyboard.justPressed(Phaser.Keyboard.ENTER))
