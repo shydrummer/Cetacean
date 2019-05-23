@@ -31,6 +31,15 @@ Planet.prototype.update = function() {
 	//check distance between player and planet
 	distance = Phaser.Math.distance(this.playerRef.x, this.playerRef.y, this.position.x, this.position.y);
 
+	if(this.orbiting)
+	{
+		game.camera.follow(this, Phaser.Camera.FOLLOW_LOCKON, .25, .25);
+	}
+	else
+	{
+		game.camera.follow(this.playerRef, Phaser.Camera.FOLLOW_TOPDOWN, .25, .25);
+	}
+
 	//in orbit
 	if(distance <= 200 && !this.orbiting)
 	{

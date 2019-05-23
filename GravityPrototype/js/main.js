@@ -164,11 +164,11 @@ Play.prototype = {
 		game.add.existing(this.blackHole1);
 
 		//add black hole 2
-		this.blackHole2 = new BlackHole(game, 1900, 300, 'hole', this.whale, this.VOID_ACCELERATION, this.MAX_VELOCITY);
-		game.add.existing(this.blackHole2);
+		//this.blackHole2 = new BlackHole(game, 1900, 300, 'hole', this.whale, this.VOID_ACCELERATION, this.MAX_VELOCITY);
+		//game.add.existing(this.blackHole2);
 
 		//add camera with 200x200 deadzone
-		game.camera.follow(this.whale, Phaser.Camera.FOLLOW_TOPDOWN);
+		//game.camera.follow(this.whale, Phaser.Camera.FOLLOW_TOPDOWN);
 
 		this.cursors = game.input.keyboard.createCursorKeys();
 	},
