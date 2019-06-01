@@ -123,6 +123,7 @@ var Play = function(game) {
 	this.DRAG = 2600;
 	this.VOID_ACCELERATION = 100;
 };
+
 Play.prototype = {
 
 	//state variables
@@ -198,6 +199,7 @@ Play.prototype = {
 		//game.camera.follow(this.whale, Phaser.Camera.FOLLOW_TOPDOWN);
 
 		this.cursors = game.input.keyboard.createCursorKeys();
+		this.whale.body.onBeginContact.add(this.killWhale, this);
 	},
 
 	update: function() {
@@ -227,8 +229,9 @@ Play.prototype = {
 		//out of bounds game over
 		if(this.whale.position.y < -200 || this.whale.position.y > 1000)
 		{
-			this.state.start('GameOver');
+			killWhale();
 		}
+
 
 		//passing the finish line
 		if(this.whale.position.x > 2200)
@@ -238,9 +241,33 @@ Play.prototype = {
 	},
 
 	//removes whale from game
-	killWhale: function() {
-		this.whale.kill();
+		killWhale: function(body, bodyB, shapeA, shapeB, equation) {
+		// onBeginContact is sent 5 arguments automatically, in this order:
+		// 1. the Phaser.Physics.P2.Body it is in contact with
+		// 2. The P2.Body this body is in contact with
+		// 3. the shape from this P2 body that caused the contact
+		// 4. the shape from the contact P2 body
+		// 5. the contact equation data array
+
+		let info = {
+			'body': body,
+			'bodyB': bodyB,
+			'shapeA': shapeA,
+			'shapeB': shapeB,
+			'equation': equation
+		};
+		console.log(info);
+
+		// make sure body isn't null (i.e., the wall)
+		if(body) {
+			// only kill/destroy the football
+			// use second line instead of first to clear sprite AND physics body
+			if(body.sprite.key === 'hole') 
+				{
+					this.whale.kill();
 		this.state.start('GameOver');
+				}
+		}
 	}
 }
 
