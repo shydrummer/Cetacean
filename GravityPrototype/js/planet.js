@@ -3,7 +3,7 @@ function Planet(game, xPos, yPos, key, player, acceleration, maxVel) {
 	Phaser.Sprite.call(this, game, xPos, yPos, key);
 
 	//has physics can't move
-	game.physics.p2.enable(this, true);
+	game.physics.p2.enable(this, false);
 	this.body.setCircle(50);
 	this.body.static = true;
 
