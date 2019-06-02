@@ -1,4 +1,3 @@
-//this is where the bugs live
 function Planet(game, xPos, yPos, key, player, acceleration, maxVel) {
 	//extend sprite object
 	Phaser.Sprite.call(this, game, xPos, yPos, key);
@@ -10,7 +9,7 @@ function Planet(game, xPos, yPos, key, player, acceleration, maxVel) {
 
 	//set anchor and scale
 	this.anchor.set(.5, .5);
-	this.scale.setTo(.45);
+	this.scale.setTo(.25);
 
 	//reference to the player object
 	this.playerRef = player;
@@ -41,7 +40,7 @@ Planet.prototype.update = function() {
 	}
 
 	//in orbit
-	if(distance <= 200 && !this.orbiting)
+	if(distance <= 150 && !this.orbiting)
 	{
 		this.orbiting = true;
 		//continue orbiting
@@ -65,7 +64,7 @@ Planet.prototype.update = function() {
 		this.playerRef.body.rotation -= angle;*/
 		//this.playerRef.body.rotateLeft(50);
 	}
-	else if(distance<=200 && this.orbiting)
+	else if(distance<=150 && this.orbiting)
 	{
 		//launch
 		if(game.input.keyboard.justPressed(Phaser.Keyboard.SPACEBAR))
@@ -78,7 +77,7 @@ Planet.prototype.update = function() {
 	}
 
 	//out of orbit
-	if(distance > 220){
+	if(distance > 170){
 		this.orbiting = false;
 		game.physics.p2.removeConstraint(this.constraint);
 			this.constraint = null;
