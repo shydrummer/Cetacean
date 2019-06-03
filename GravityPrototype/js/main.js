@@ -22,6 +22,7 @@ MainMenu.prototype = {
 		this.load.image('CreditButton', 'CreditsButton.png');
 		this.load.image('whaleMom', 'SpaceWhale.png');
 		this.load.image('whaleBaby', 'frame0000.png');
+		this.load.image('logo', 'logo.png');
 
 		this.load.path = 'assets/audio/';
 		game.load.audio('theme', ['space_whale_temp.mp3']);
@@ -31,6 +32,8 @@ MainMenu.prototype = {
 	create: function() {
 		//display image
 		this.menu = this.add.sprite(0, 0, 'MainMenu');
+		this.logo = this.add.sprite(200, 30, 'logo');
+		this.logo.scale.setTo(2);
 
 		this.wave2 = this.add.sprite(0, 155, 'backWave');
 		this.wave4 = this.add.sprite(-1200, 155, 'backWave');
@@ -59,6 +62,7 @@ MainMenu.prototype = {
 
 		this.goingUpA = true;
 		this.goingUpB = false;
+		this.launched = false;
 	},
 
 	update: function(){
@@ -122,41 +126,45 @@ MainMenu.prototype = {
 			}
 		}
 
-		if(this.whaleBaby.y > 400)
-		{
-			this.goingUpA = false;
-		}
-		else if (this.whaleBaby.y < 300)
-		{
-			this.goingUpA = true;
-		}
+		
+			if(this.whaleBaby.y > 400)
+			{
+				this.goingUpA = false;
+			}
+			else if (this.whaleBaby.y < 300)
+			{
+				this.goingUpA = true;
+			}
 
-		if(this.whaleMom.y > 125)
-		{
-			this.goingUpB = false;
-		}
-		else if (this.whaleMom.y < -25)
-		{
-			this.goingUpB = true;
-		}
+			if(this.whaleMom.y > 125)
+			{
+				this.goingUpB = false;
+			}
+			else if (this.whaleMom.y < -25)
+			{
+				this.goingUpB = true;
+			}
 
-		if(this.goingUpA)
-		{
-			this.whaleBaby.y ++;
-		}
-		else
-		{
-			this.whaleBaby.y --;
-		}
+			if(this.goingUpA)
+			{
+				this.whaleBaby.y ++;
+			}
+			else
+			{
+				this.whaleBaby.y --;
+			}
 
-		if(this.goingUpB)
-		{
-			this.whaleMom.y ++;
-		}
-		else
-		{
-			this.whaleMom.y --;
-		}
+			if(this.goingUpB)
+			{
+				this.whaleMom.y ++;
+			}
+			else
+			{
+				this.whaleMom.y --;
+			}
+		
+
+		
 	}
 }
 
@@ -184,16 +192,16 @@ Cutscene.prototype = {
 			//display image
 		this.menu = this.add.sprite(0, -1200, 'background');
 
-		this.wave2 = this.add.sprite(0, 155, 'backWave');
-		this.wave4 = this.add.sprite(-1200, 155, 'backWave');
+		this.wave2 = this.add.sprite(0, 4355, 'backWave');
+		this.wave4 = this.add.sprite(-1200, 4355, 'backWave');
 
-		this.wave1 = this.add.sprite(0, 155, 'frontWave');
-		this.wave3 = this.add.sprite(1200, 155, 'frontWave');
+		this.wave1 = this.add.sprite(0, 4355, 'frontWave');
+		this.wave3 = this.add.sprite(1200, 4355, 'frontWave');
 
-		this.whaleMom = this.add.sprite(500, 300, 'whaleMom');
+		this.whaleMom = this.add.sprite(500, 4500, 'whaleMom');
 		this.whaleMom.scale.setTo(1, 1);
 
-		this.whaleBaby = this.add.sprite(400, 450, 'whaleBaby');
+		this.whaleBaby = this.add.sprite(400, 4650, 'whaleBaby');
 		this.whaleBaby.scale.setTo(.5);
 
 		this.goingUpA = true;
@@ -204,13 +212,19 @@ Cutscene.prototype = {
 
 		game.physics.p2.enable(this.whaleMom, true);
 		this.whaleMom.body.setCircle(60);
+		this.whaleMom.body.collideWorldBounds = false;
 
 		game.physics.p2.enable(this.whaleBaby, true);
 		this.whaleBaby.body.setCircle(30);
+		this.whaleBaby.body.collideWorldBounds = false;
 
-		game.world.setBounds(0, 0, 20000, 900);
+		game.world.setBounds(0, 0, 20000, 4800);
 
 		game.physics.p2.gravity.y = 0;
+
+		this.launched = false;
+
+		game.camera.follow(this.whaleBaby, Phaser.Camera.FOLLOW_TOPDOWN, .25, .25);
 
 	},
 
@@ -231,50 +245,64 @@ Cutscene.prototype = {
 			this.wave4.position.x = -1200;
 		}
 
-		if(this.whaleBaby.y > 500)
+		if(!this.launched)
 		{
-			this.goingUpA = false;
-		}
-		else if (this.whaleBaby.y < 400)
-		{
-			this.goingUpA = true;
-		}
+			if(this.whaleBaby.y > 4700)
+			{
+				this.goingUpA = false;
+			}
+			else if (this.whaleBaby.y < 4600)
+			{
+				this.goingUpA = true;
+			}
 
-		if(this.whaleMom.y > 375)
-		{
-			this.goingUpB = false;
-		}
-		else if (this.whaleMom.y < 225)
-		{
-			this.goingUpB = true;
-		}
+			if(this.whaleMom.y > 4575)
+			{
+				this.goingUpB = false;
+			}
+			else if (this.whaleMom.y < 4425)
+			{
+				this.goingUpB = true;
+			}
 
-		if(this.goingUpA)
-		{
-			this.whaleBaby.body.y ++;
-		}
-		else
-		{
-			this.whaleBaby.body.y --;
-		}
+			if(this.goingUpA)
+			{
+				this.whaleBaby.body.y ++;
+			}
+			else
+			{
+				this.whaleBaby.body.y --;
+			}
 
-		if(this.goingUpB)
-		{
-			this.whaleMom.body.y ++;
-		}
-		else
-		{
-			this.whaleMom.body.y --;
-		}
+			if(this.goingUpB)
+			{
+				this.whaleMom.body.y ++;
+			}
+			else
+			{
+				this.whaleMom.body.y --;
+			}
+	}
 
 		if(this.input.keyboard.justPressed(Phaser.Keyboard.SPACEBAR))
 		{
-			this.whaleMom.body.velocity.x = 100;
+			this.whaleMom.body.velocity.x = 50;
+			this.whaleBaby.body.velocity.x = 50;
+			this.whaleMom.body.velocity.y = -300;
+			this.whaleBaby.body.velocity.y = -300;
+			this.launched = true;
+			game.camera.follow(this.whaleMom, Phaser.Camera.FOLLOW_TOPDOWN, .25, .25);
+
 		}
 
 		if(this.input.keyboard.justPressed(Phaser.Keyboard.ENTER))
 		{
 			this.state.start("Play");
+		}
+
+		if(this.whaleMom.y < 2000)
+		{
+			this.whaleMom.body.velocity.x = 200;
 		}
 	}
 }
