@@ -210,11 +210,11 @@ Cutscene.prototype = {
 		//physics
 		game.physics.startSystem(Phaser.Physics.P2JS);
 
-		game.physics.p2.enable(this.whaleMom, true);
+		game.physics.p2.enable(this.whaleMom, false);
 		this.whaleMom.body.setCircle(60);
 		this.whaleMom.body.collideWorldBounds = false;
 
-		game.physics.p2.enable(this.whaleBaby, true);
+		game.physics.p2.enable(this.whaleBaby, false);
 		this.whaleBaby.body.setCircle(30);
 		this.whaleBaby.body.collideWorldBounds = false;
 
@@ -302,8 +302,14 @@ Cutscene.prototype = {
 
 		if(this.whaleMom.y < 2000)
 		{
+			this.asteroidShower();
 			this.whaleMom.body.velocity.x = 200;
 		}
+	},
+
+	asteroidShower: function()
+	{
+
 	}
 }
 
