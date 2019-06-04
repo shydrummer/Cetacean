@@ -24,12 +24,11 @@ MainMenu.prototype = {
 		this.load.image('whaleBaby', 'frame0000.png');
 		this.load.image('logo', 'logo.png');
 
-		this.load.path = 'assets/audio/';
-		game.load.audio('theme', ['space_whale_temp.mp3']);
-		game.load.audio('launch', ['launch_sound.wav']);
+
 	},
 
 	create: function() {
+
 		//display image
 		this.menu = this.add.sprite(0, 0, 'MainMenu');
 		this.logo = this.add.sprite(200, 30, 'logo');
@@ -67,9 +66,7 @@ MainMenu.prototype = {
 
 	update: function(){
 		//menu logic
-		this.beats = game.add.audio('theme');
-		this.beats.play('', 0, 0.5, true);	
-		this.beats.volume = 0.05;
+
 
 		this.wave1.position.x --;
 		this.wave3.position.x --;
@@ -190,6 +187,7 @@ Cutscene.prototype = {
 	},
 
 	create: function() {
+
 			//display image
 		this.menu = this.add.sprite(0, -1200, 'background');
 
@@ -230,6 +228,7 @@ Cutscene.prototype = {
 	},
 
 	update: function() {
+
 		this.wave1.position.x --;
 		this.wave3.position.x --;
 		if(this.wave1.position.x < -1200)
@@ -344,9 +343,19 @@ Play.prototype = {
 		this.load.image('whale', 'frame0000.png');
 		this.load.image('hole', 'black hole.png');
 
+		this.load.path = 'assets/audio/';
+		game.load.audio('theme', ['whale-music.mp3']);
+		game.load.audio('launch', ['launch_sound.mp3']);
+		game.load.audio('orbit', ['orbit1.mp3']);
+
 	},
 
 	create: function() {
+
+		this.beats = game.add.audio('theme');
+		this.beats.play('', 0, 1, true);	
+		this.beats.volume = 0.5;
+		
 		//place assets
 		//background
 		this.spaceBG = this.add.sprite(0, 0, 'spaceBG');
