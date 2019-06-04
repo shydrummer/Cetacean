@@ -25,11 +25,18 @@ MainMenu.prototype = {
 		this.load.image('logo', 'logo.png');
 
 		this.load.path = 'assets/audio/';
-		game.load.audio('theme', ['space_whale_temp.mp3']);
-		game.load.audio('launch', ['launch_sound.wav']);
+		game.load.audio('theme', ['whale-music.mp3']);
+		game.load.audio('launch', ['launch_sound.mp3']);
+		game.load.audio('orbit', ['orbit1.mp3']);
+
 	},
 
 	create: function() {
+
+		this.beats = game.add.audio('theme');
+		this.beats.play('', 0, 1, true);	
+		this.beats.volume = 0.5;
+
 		//display image
 		this.menu = this.add.sprite(0, 0, 'MainMenu');
 		this.logo = this.add.sprite(200, 30, 'logo');
@@ -67,9 +74,7 @@ MainMenu.prototype = {
 
 	update: function(){
 		//menu logic
-		this.beats = game.add.audio('theme');
-		this.beats.play('', 0, 0.5, true);	
-		this.beats.volume = 0.05;
+
 
 		this.wave1.position.x --;
 		this.wave3.position.x --;
