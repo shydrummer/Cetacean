@@ -186,6 +186,7 @@ Cutscene.prototype = {
 		this.load.image('CreditButton', 'CreditsButton.png');
 		this.load.image('whaleMom', 'SpaceWhale.png');
 		this.load.image('whaleBaby', 'frame0000.png');
+		this.load.image('asteroid', 'Asteroid.png');
 	},
 
 	create: function() {
@@ -286,8 +287,6 @@ Cutscene.prototype = {
 
 		if(this.input.keyboard.justPressed(Phaser.Keyboard.SPACEBAR))
 		{
-			this.whaleMom.body.velocity.x = 50;
-			this.whaleBaby.body.velocity.x = 50;
 			this.whaleMom.body.velocity.y = -300;
 			this.whaleBaby.body.velocity.y = -300;
 			this.launched = true;
@@ -302,14 +301,19 @@ Cutscene.prototype = {
 
 		if(this.whaleMom.y < 2000)
 		{
-			this.asteroidShower();
+			this.asteroidShower = new Asteroids(game, 'asteroid', 1800, 1200);
+			this.game.add.existing(this.asteroidShower);
 			this.whaleMom.body.velocity.x = 200;
+			game.camera.follow(this.whaleBaby, Phaser.Camera.FOLLOW_TOPDOWN, .05, .05);
 		}
-	},
 
-	asteroidShower: function()
-	{
 
+		var distance = Phaser.Math.distance(this.whaleBaby.x, this.whaleBaby.y, this.whaleMom.x, this.whaleMom.y);
+
+		if(distance > 1500)
+		{
+			this.state.start('Play');
+		}
 	}
 }
 
@@ -333,8 +337,10 @@ Play.prototype = {
 	preload: function() {
 		// preload assets
 		this.load.path = 'assets/img/';
-		this.load.image('spaceBG', 'starting screen 4.png');
-		this.load.image('planet', 'littleplaentVariation1.png');
+		this.load.image('spaceBG', 'Space BG.png');
+		this.load.image('planet1', 'littleplaentVariation1.png');
+		this.load.image('planet2', 'littleplanetVariation2.png');
+		this.load.image('planet3', 'littleplanetVariation3.png');
 		this.load.image('whale', 'frame0000.png');
 		this.load.image('hole', 'black hole.png');
 
@@ -343,8 +349,8 @@ Play.prototype = {
 	create: function() {
 		//place assets
 		//background
-		this.spaceBG = this.add.sprite(-1200, 0, 'spaceBG');
-		this.spaceBG.scale.setTo(2);
+		this.spaceBG = this.add.sprite(0, 0, 'spaceBG');
+		this.spaceBG.scale.setTo(1);
 
 		//physics
 		game.physics.startSystem(Phaser.Physics.P2JS);
@@ -353,7 +359,7 @@ Play.prototype = {
 		game.physics.p2.gravity.y = 0;
 
 		//whale player
-		this.whale = this.add.sprite(250, 450, 'whale');
+		this.whale = this.add.sprite(450, 500, 'whale');
 
 		game.physics.p2.enable(this.whale, false);
 		this.whale.body.setCircle(30);
@@ -366,15 +372,15 @@ Play.prototype = {
 		
 
 		//add planet 1
-		this.planet1 = new Planet(game, 600, 500, 'planet', this.whale, this.VOID_ACCELERATION, this.MAX_VELOCITY);
+		this.planet1 = new Planet(game, 600, 500, 'planet1', this.whale, this.VOID_ACCELERATION, this.MAX_VELOCITY);
 		game.add.existing(this.planet1);
 
 		//add planet 2
-		this.planet2 = new Planet(game, 1200, 500, 'planet', this.whale, this.VOID_ACCELERATION, this.MAX_VELOCITY);
+		this.planet2 = new Planet(game, 1200, 500, 'planet2', this.whale, this.VOID_ACCELERATION, this.MAX_VELOCITY);
 		game.add.existing(this.planet2);
 
 		//add planet 3
-		this.planet3 = new Planet(game, 1750, 500, 'planet', this.whale, this.VOID_ACCELERATION, this.MAX_VELOCITY);
+		this.planet3 = new Planet(game, 1750, 500, 'planet3', this.whale, this.VOID_ACCELERATION, this.MAX_VELOCITY);
 		game.add.existing(this.planet3);
 
 		//add black hole1
@@ -382,23 +388,23 @@ Play.prototype = {
 		game.add.existing(this.blackHole1);
 
 		//add planet 4
-		this.planet4 = new Planet(game, 2300, 250, 'planet', this.whale, this.VOID_ACCELERATION, this.MAX_VELOCITY);
+		this.planet4 = new Planet(game, 2300, 250, 'planet1', this.whale, this.VOID_ACCELERATION, this.MAX_VELOCITY);
 		game.add.existing(this.planet4);
 
 		//add planet 5
-		this.planet5 = new Planet(game, 2300, 750, 'planet', this.whale, this.VOID_ACCELERATION, this.MAX_VELOCITY);
+		this.planet5 = new Planet(game, 2300, 750, 'planet2', this.whale, this.VOID_ACCELERATION, this.MAX_VELOCITY);
 		game.add.existing(this.planet5);
 
 		//add planet 6
-		this.planet6 = new Planet(game, 2800, 500, 'planet', this.whale, this.VOID_ACCELERATION, this.MAX_VELOCITY);
+		this.planet6 = new Planet(game, 2800, 500, 'planet3', this.whale, this.VOID_ACCELERATION, this.MAX_VELOCITY);
 		game.add.existing(this.planet6);
 
 		//add planet 7
-		this.planet7 = new Planet(game, 3200, 300, 'planet', this.whale, this.VOID_ACCELERATION, this.MAX_VELOCITY);
+		this.planet7 = new Planet(game, 3200, 300, 'planet1', this.whale, this.VOID_ACCELERATION, this.MAX_VELOCITY);
 		game.add.existing(this.planet7);
 
 		//add planet 8
-		this.planet8 = new Planet(game, 3600, 700, 'planet', this.whale, this.VOID_ACCELERATION, this.MAX_VELOCITY);
+		this.planet8 = new Planet(game, 3600, 700, 'planet2', this.whale, this.VOID_ACCELERATION, this.MAX_VELOCITY);
 		game.add.existing(this.planet8);
 
 		//add black hole 2
@@ -406,7 +412,7 @@ Play.prototype = {
 		game.add.existing(this.blackHole2);
 
 		//add planet 9
-		this.planet9 = new Planet(game, 3800, 300, 'planet', this.whale, this.VOID_ACCELERATION, this.MAX_VELOCITY);
+		this.planet9 = new Planet(game, 3800, 300, 'planet3', this.whale, this.VOID_ACCELERATION, this.MAX_VELOCITY);
 		game.add.existing(this.planet9);
 
 		//add black hole 3
@@ -418,7 +424,7 @@ Play.prototype = {
 		game.add.existing(this.blackHole4);
 
 		//add planet 10
-		this.planet10 = new Planet(game, 4375, 475, 'planet', this.whale, this.VOID_ACCELERATION, this.MAX_VELOCITY);
+		this.planet10 = new Planet(game, 4375, 475, 'planet1', this.whale, this.VOID_ACCELERATION, this.MAX_VELOCITY);
 		game.add.existing(this.planet10);
 
 		//add black hole 5
@@ -426,7 +432,7 @@ Play.prototype = {
 		game.add.existing(this.blackHole5);
 
 		//add planet 11
-		this.planet11 = new Planet(game, 4800, 200, 'planet', this.whale, this.VOID_ACCELERATION, this.MAX_VELOCITY);
+		this.planet11 = new Planet(game, 4800, 200, 'planet2', this.whale, this.VOID_ACCELERATION, this.MAX_VELOCITY);
 		game.add.existing(this.planet11);
 
 		//add black hole 6
@@ -438,23 +444,21 @@ Play.prototype = {
 		game.add.existing(this.blackHole7);
 
 		//add planet 12
-		this.planet12 = new Planet(game, 5200, 300, 'planet', this.whale, this.VOID_ACCELERATION, this.MAX_VELOCITY);
+		this.planet12 = new Planet(game, 5200, 300, 'planet3', this.whale, this.VOID_ACCELERATION, this.MAX_VELOCITY);
 		game.add.existing(this.planet12);
 
 		//add planet 13
-		this.planet13 = new Planet(game, 5700, 500, 'planet', this.whale, this.VOID_ACCELERATION, this.MAX_VELOCITY);
+		this.planet13 = new Planet(game, 5700, 500, 'planet1', this.whale, this.VOID_ACCELERATION, this.MAX_VELOCITY);
 		game.add.existing(this.planet13);
 
 		//add planet 14
-		this.planet14 = new Planet(game, 6200, 500, 'planet', this.whale, this.VOID_ACCELERATION, this.MAX_VELOCITY);
+		this.planet14 = new Planet(game, 6200, 500, 'planet2', this.whale, this.VOID_ACCELERATION, this.MAX_VELOCITY);
 		game.add.existing(this.planet14);
 
 		//add planet 15
-		this.planet15 = new Planet(game, 6700, 500, 'planet', this.whale, this.VOID_ACCELERATION, this.MAX_VELOCITY);
+		this.planet15 = new Planet(game, 6700, 500, 'planet3', this.whale, this.VOID_ACCELERATION, this.MAX_VELOCITY);
 		game.add.existing(this.planet15);
 
-		//add camera with 200x200 deadzone
-		//game.camera.follow(this.whale, Phaser.Camera.FOLLOW_TOPDOWN);
 
 		this.cursors = game.input.keyboard.createCursorKeys();
 		this.whale.body.onBeginContact.add(this.killWhale, this);
@@ -507,12 +511,6 @@ Play.prototype = {
 			this.whale.body.velocity.y = this.MAX_VELOCITY;
 		} 
 		//END REMOVE
-
-		//out of bounds game over
-		if(this.whale.position.y < -200 || this.whale.position.y > 1000)
-		{
-			killWhale();
-		}
 
 
 		//passing the finish line

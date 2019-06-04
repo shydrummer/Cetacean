@@ -9,7 +9,15 @@ function Planet(game, xPos, yPos, key, player, acceleration, maxVel) {
 
 	//set anchor and scale
 	this.anchor.set(.5, .5);
-	this.scale.setTo(.25);
+	if(key == 'planet1')
+	{
+		this.scale.setTo(.25);
+	}
+	else
+	{
+		this.scale.setTo(.125);
+	}
+	
 
 	//reference to the player object
 	this.playerRef = player;
@@ -32,11 +40,11 @@ Planet.prototype.update = function() {
 
 	if(this.orbiting)
 	{
-		game.camera.follow(this, Phaser.Camera.FOLLOW_LOCKON, .25, .25);
+		game.camera.follow(this, Phaser.Camera.FOLLOW_LOCKON, .05, .05);
 	}
 	else
 	{
-		game.camera.follow(this.playerRef, Phaser.Camera.FOLLOW_TOPDOWN, .25, .25);
+		//game.camera.follow(this, Phaser.Camera.FOLLOW_TOPDOWN, .25, .25);
 	}
 
 	//in orbit
@@ -77,7 +85,7 @@ Planet.prototype.update = function() {
 	}
 
 	//out of orbit
-	if(distance > 170){
+	if(distance > 175){
 		this.orbiting = false;
 		game.physics.p2.removeConstraint(this.constraint);
 			this.constraint = null;
