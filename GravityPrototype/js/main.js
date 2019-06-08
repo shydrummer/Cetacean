@@ -175,7 +175,7 @@ Cutscene.prototype = {
 		//load images
 		this.load.path = 'assets/img/';
 		this.load.image('MainMenu', 'MainMenu.png');
-		this.load.image('background', 'starting screen 4.png');
+		this.load.image('spaceBG', 'Space BG.png');
 		this.load.image("frontWave", 'TopWaves.png');
 		this.load.image('backWave', 'BottomWaves.png');
 		this.load.image('PlayButton', 'PlayButton.png');
@@ -189,7 +189,8 @@ Cutscene.prototype = {
 	create: function() {
 
 			//display image
-		this.menu = this.add.sprite(0, -1200, 'background');
+		this.menu = this.add.sprite(0, 3000, 'spaceBG');
+		this.menu.scale.setTo(1);
 
 		this.wave2 = this.add.sprite(0, 4355, 'backWave');
 		this.wave4 = this.add.sprite(-1200, 4355, 'backWave');
@@ -298,18 +299,19 @@ Cutscene.prototype = {
 			this.state.start("Play");
 		}
 
-		if(this.whaleMom.y < 2000)
+		if(this.whaleMom.y < 3600)
 		{
-			this.asteroidShower = new Asteroids(game, 'asteroid', 1800, 1200);
+			this.asteroidShower = new Asteroids(game, 'asteroid', 1200, 4200);
 			this.game.add.existing(this.asteroidShower);
-			this.whaleMom.body.velocity.x = 200;
+			this.whaleBaby.body.velocity.y = 0;
+			this.whaleMom.body.velocity.x = 400;
 			game.camera.follow(this.whaleBaby, Phaser.Camera.FOLLOW_TOPDOWN, .05, .05);
 		}
 
 
 		var distance = Phaser.Math.distance(this.whaleBaby.x, this.whaleBaby.y, this.whaleMom.x, this.whaleMom.y);
 
-		if(distance > 1500)
+		if(distance > 2000)
 		{
 			this.state.start('Play');
 		}
@@ -477,8 +479,8 @@ Play.prototype = {
 		this.planet15 = new Planet(game, 6700, 500, 'planet3', this.whale, this.VOID_ACCELERATION, this.MAX_VELOCITY);
 		game.add.existing(this.planet15);
 
-		//this.starBar = new HealthBar(game, 10, 10, 'star');
-		//game.add.existing(this.starBar);
+		this.starBar = new HealthBar(game, 10, 10, 'star');
+		game.add.existing(this.starBar);
 
 		this.cursors = game.input.keyboard.createCursorKeys();
 		this.whale.body.onBeginContact.add(this.killWhale, this);
@@ -496,6 +498,10 @@ Play.prototype = {
 		this.tut1 = false;
 		this.tut2 = false;
 		this.tut3 = false;
+
+		var xPos = 10;
+		var yPos = 10;
+		var key = 'star';
 	},
 
 	update: function() {
@@ -534,10 +540,10 @@ Play.prototype = {
 
 
 		//passing the finish line
-		/*if(this.whale.position.x > 2200)
+		if(this.whale.position.y > 900)
 		{
-			this.state.start('Victory');
-		}*/
+			this.starBar.decreaseHealth();
+		}
 
 		if(this.whale.x > 600 && !this.tut1)
 		{
@@ -588,12 +594,8 @@ Play.prototype = {
 			'shapeB': shapeB,
 			'equation': equation
 		};
-		console.log(info);
-
 		// make sure body isn't null (i.e., the wall)
 		if(body) {
-			// only kill/destroy the football
-			// use second line instead of first to clear sprite AND physics body
 			if(body.sprite.key === 'hole')
 			{
 				this.healthStatus = this.starBar.decreaseHealth();
@@ -605,11 +607,7 @@ Play.prototype = {
 				game.state.start("GameOver");
 			}
 		}
-		else
-		{
-			this.whale.kill();
-			this.state.start('GameOver');
-		}
+
 	}
 }
 

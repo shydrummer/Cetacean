@@ -1,7 +1,6 @@
 function HealthBar(game, xPos, yPos, key) {
-	Phaser.Sprite.call(this, game, xPos, yPos, key);
-	this.fixedToCamera = true;
 
+	Phaser.Sprite.call(this, game, xPos, yPos, key);
 	this.health1 = game.add.sprite(xPos, yPos, key);
 	this.health1.fixedToCamera = true;
 
@@ -15,21 +14,21 @@ function HealthBar(game, xPos, yPos, key) {
 HealthBar.prototype = Object.create(Phaser.Sprite.prototype);
 HealthBar.prototype.constructor = HealthBar;
 
-HealthBar.prototype = {
-	decreaseHealth: function()
-	{
-		if(this.health2 == null)
+HealthBar.prototype.decreaseHealth = function() {
+
+		if(this.health2.alive == false)
 		{
-			this.health1.destroy();
+			this.health1.kill();
 			return -1;
 		}
-		else if (this.health3 == null)
+		else if (this.health3.alive == false)
 		{
-			this.health2.destroy();
+			this.health2.kill();
 		}
 		else
 		{
-			this.health3.destroy();
+			this.health3.kill();
+			this.health3.alive = false;
 		}
-	}
+		console.log("ouch");
 }
