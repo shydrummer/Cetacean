@@ -123,7 +123,7 @@ MainMenu.prototype = {
 			}
 		}
 
-		
+
 			if(this.whaleBaby.y > 400)
 			{
 				this.goingUpA = false;
@@ -159,9 +159,9 @@ MainMenu.prototype = {
 			{
 				this.whaleMom.y --;
 			}
-		
 
-		
+
+
 	}
 }
 
@@ -343,10 +343,12 @@ Play.prototype = {
 		this.load.image('whale', 'frame0000.png');
 		this.load.image('hole', 'black hole.png');
 		this.load.image('star', 'star.png');
+		this.load.image('ring', 'ring.png');
+
 
 		this.load.path = 'assets/audio/';
 		game.load.audio('theme', ['whale-music.mp3']);
-		//game.load.audio('launch', ['launch_sound.mp3']);
+		game.load.audio('launch', ['launch1.mp3']);
 		game.load.audio('orbit', ['orbit1.mp3']);
 
 	},
@@ -354,9 +356,9 @@ Play.prototype = {
 	create: function() {
 
 		this.beats = game.add.audio('theme');
-		this.beats.play('', 0, 1, true);	
+		this.beats.play('', 0, 1, true);
 		this.beats.volume = 0.5;
-		
+
 		//place assets
 		//background
 		this.spaceBG = this.add.sprite(0, 0, 'spaceBG');
@@ -378,11 +380,18 @@ Play.prototype = {
 
 
 		//set world bounds
-		
+
 
 		//add planet 1
 		this.planet1 = new Planet(game, 600, 500, 'planet1', this.whale, this.VOID_ACCELERATION, this.MAX_VELOCITY);
 		game.add.existing(this.planet1);
+
+		this.ring = this.add.sprite(600, 500, 'ring');
+		this.ring.anchor.setTo(0.5);	//set anchor
+		this.ring.scale.setTo(1.25);
+		this.ring.alpha = 0.5;						// make semi-transparent
+
+
 
 		//add planet 2
 		this.planet2 = new Planet(game, 1200, 500, 'planet2', this.whale, this.VOID_ACCELERATION, this.MAX_VELOCITY);
@@ -468,8 +477,8 @@ Play.prototype = {
 		this.planet15 = new Planet(game, 6700, 500, 'planet3', this.whale, this.VOID_ACCELERATION, this.MAX_VELOCITY);
 		game.add.existing(this.planet15);
 
-		this.starBar = new HealthBar(game, 10, 10, 'star');
-		game.add.existing(this.starBar);
+		//this.starBar = new HealthBar(game, 10, 10, 'star');
+		//game.add.existing(this.starBar);
 
 		this.cursors = game.input.keyboard.createCursorKeys();
 		this.whale.body.onBeginContact.add(this.killWhale, this);
@@ -508,19 +517,19 @@ Play.prototype = {
 		this.planet13.body.rotation += this.rotateSpeed;
 		this.planet14.body.rotation += this.rotateSpeed;
 		this.planet15.body.rotation += this.rotateSpeed;
-		
+
 		//WHALE MVMT FOR TESTING ONLY
 		//REMOVE FOR FINAL GAME
 		if(this.cursors.left.isDown) {
 			this.whale.body.velocity.x = -this.MAX_VELOCITY;
 		} else if(this.cursors.right.isDown) {
 			this.whale.body.velocity.x = this.MAX_VELOCITY;
-		} 
+		}
 		if(this.cursors.up.isDown) {
 			this.whale.body.velocity.y = -this.MAX_VELOCITY;
 		} else if(this.cursors.down.isDown) {
 			this.whale.body.velocity.y = this.MAX_VELOCITY;
-		} 
+		}
 		//END REMOVE
 
 
@@ -570,6 +579,7 @@ Play.prototype = {
 		// 3. the shape from this P2 body that caused the contact
 		// 4. the shape from the contact P2 body
 		// 5. the contact equation data array
+		this.beats.fadeOut(500);
 
 		let info = {
 			'body': body,
@@ -584,11 +594,11 @@ Play.prototype = {
 		if(body) {
 			// only kill/destroy the football
 			// use second line instead of first to clear sprite AND physics body
-			if(body.sprite.key === 'hole') 
+			if(body.sprite.key === 'hole')
 			{
 				this.healthStatus = this.starBar.decreaseHealth();
 			}
-			
+
 			if(this.healthStatus == -1)
 			{
 				this.whale.kill()
@@ -603,16 +613,20 @@ Play.prototype = {
 	}
 }
 
-var GameOver = function(game) {};
+var GameOver = function(game, beats) {};
 GameOver.prototype = {
 
 	init: function(){
+
+	this.beats.fadeOut(500);
+
 	},
 
 	preload: function() {
 		//load assets
 		this.load.path = 'assets/img/';
 		this.load.image('OverScreen', 'GameOverScreen.png');
+
 	},
 
 	create: function() {

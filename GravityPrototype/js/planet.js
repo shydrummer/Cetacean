@@ -17,7 +17,12 @@ function Planet(game, xPos, yPos, key, player, acceleration, maxVel) {
 	{
 		this.scale.setTo(.125);
 	}
+
+	this.launch = game.add.audio('launch');
+	this.launch.volume = 0.5;
 	
+	this.orb = game.add.audio('orbit');
+	this.orb.volume = 0.5;
 
 	//reference to the player object
 	this.playerRef = player;
@@ -51,6 +56,9 @@ Planet.prototype.update = function() {
 	if(distance <= 150 && !this.orbiting)
 	{
 		this.orbiting = true;
+		this.orb.play('', 0, 0.3, false);	
+		this.orb.fadeOut(900);
+
 		//continue orbiting
 		if(!game.input.keyboard.justPressed(Phaser.Keyboard.SPACEBAR))
 		{
@@ -79,6 +87,12 @@ Planet.prototype.update = function() {
 		{
 			game.physics.p2.removeConstraint(this.constraint);
 			this.constraint = null;
+
+			//ADD LAUNCH SOUND HERE
+			this.launch.play('', 0, 0.3, false);
+			this.launch.fadeOut(700);		// fade music
+	
+
 
 			console.log("here");
 		}
