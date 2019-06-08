@@ -342,6 +342,7 @@ Play.prototype = {
 		this.load.image('planet3', 'littleplanetVariation3.png');
 		this.load.image('whale', 'frame0000.png');
 		this.load.image('hole', 'black hole.png');
+		this.load.image('star', 'star.png');
 
 		this.load.path = 'assets/audio/';
 		game.load.audio('theme', ['whale-music.mp3']);
@@ -467,6 +468,8 @@ Play.prototype = {
 		this.planet15 = new Planet(game, 6700, 500, 'planet3', this.whale, this.VOID_ACCELERATION, this.MAX_VELOCITY);
 		game.add.existing(this.planet15);
 
+		this.starBar = new HealthBar(game, 10, 10, 'star');
+		game.add.existing(this.starBar);
 
 		this.cursors = game.input.keyboard.createCursorKeys();
 		this.whale.body.onBeginContact.add(this.killWhale, this);
@@ -583,12 +586,13 @@ Play.prototype = {
 			// use second line instead of first to clear sprite AND physics body
 			if(body.sprite.key === 'hole') 
 			{
-				this.whale.kill();
-				this.state.start('GameOver');
+				this.healthStatus = this.starBar.decreaseHealth();
 			}
-			else if(body.sprite.key == 'wall')
+			
+			if(this.healthStatus == -1)
 			{
-				//x
+				this.whale.kill()
+				game.state.start("GameOver");
 			}
 		}
 		else
