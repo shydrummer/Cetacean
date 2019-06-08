@@ -346,7 +346,7 @@ Play.prototype = {
 
 		this.load.path = 'assets/audio/';
 		game.load.audio('theme', ['whale-music.mp3']);
-		game.load.audio('launch', ['launch_sound.mp3']);
+		//game.load.audio('launch', ['launch_sound.mp3']);
 		game.load.audio('orbit', ['orbit1.mp3']);
 
 	},
