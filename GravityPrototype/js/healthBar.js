@@ -19,7 +19,7 @@ function decreaseHealth()
 	if(this.health2 == null)
 	{
 		this.health1.destroy();
-		//return -1;
+		return -1;
 	}
 	else if (this.health3 == null)
 	{
