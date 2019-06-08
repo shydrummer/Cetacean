@@ -364,6 +364,7 @@ Play.prototype = {
 
 		//physics
 		game.physics.startSystem(Phaser.Physics.P2JS);
+		//game.physics.startSystem(Phaser.Physics.ARCADE);
 
 		game.physics.p2.gravity.y = 0;
 
