@@ -342,7 +342,6 @@ Play.prototype = {
 		this.load.image('planet3', 'littleplanetVariation3.png');
 		this.load.image('whale', 'frame0000.png');
 		this.load.image('hole', 'black hole.png');
-		this.load.image('star', 'star.png');
 
 		this.load.path = 'assets/audio/';
 		game.load.audio('theme', ['whale-music.mp3']);
@@ -469,9 +468,6 @@ Play.prototype = {
 		game.add.existing(this.planet15);
 
 
-		this.healthBar = new HealthBar(game, 10, 10, 'star');
-		game.add.existing(this.healthBar);
-
 		this.cursors = game.input.keyboard.createCursorKeys();
 		this.whale.body.onBeginContact.add(this.killWhale, this);
 		this.whale.body.colliedeWorldBounds = false;
@@ -589,6 +585,10 @@ Play.prototype = {
 			{
 				this.whale.kill();
 				this.state.start('GameOver');
+			}
+			else if(body.sprite.key == 'wall')
+			{
+				//x
 			}
 		}
 		else
