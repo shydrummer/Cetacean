@@ -521,6 +521,14 @@ Play.prototype = {
 		this.planet14.body.rotation += this.rotateSpeed;
 		this.planet15.body.rotation += this.rotateSpeed;
 
+		this.blackHole1.body.rotation += this.rotateSpeed;
+		this.blackHole2.body.rotation += this.rotateSpeed;
+		this.blackHole3.body.rotation += this.rotateSpeed;
+		this.blackHole4.body.rotation += this.rotateSpeed;
+		this.blackHole5.body.rotation += this.rotateSpeed;
+		this.blackHole6.body.rotation += this.rotateSpeed;
+		this.blackHole7.body.rotation += this.rotateSpeed;
+
 		//WHALE MVMT FOR TESTING ONLY
 		//REMOVE FOR FINAL GAME
 		if(this.cursors.left.isDown) {
