@@ -25,9 +25,19 @@ MainMenu.prototype = {
 		this.load.image('logo', 'logo.png');
 
 
+		this.load.path = 'assets/audio/';
+		game.load.audio('water', ['water.mp3']);
+
+
+
 	},
 
 	create: function() {
+
+
+		this.water = game.add.audio('water');
+		this.water.volume = 0.5;
+		this.water.play('', 0, 1, false);
 
 		//display image
 		this.menu = this.add.sprite(0, 0, 'MainMenu');
@@ -111,6 +121,8 @@ MainMenu.prototype = {
 		{
 			if(this.currentButton == 0)
 			{
+				this.water.fadeOut(200);
+
 				this.state.start('Cutscene');
 			}
 			else if(this.currentButton == 1)
