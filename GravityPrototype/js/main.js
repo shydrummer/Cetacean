@@ -35,9 +35,9 @@ MainMenu.prototype = {
 	create: function() {
 
 
-		this.water = game.add.audio('water');
-		this.water.volume = 0.5;
-		this.water.play('', 0, 1, false);
+		game.water = game.add.audio('water');
+		game.water.volume = 0.5;
+		game.water.play('', 0, 1, true);
 
 		//display image
 		this.menu = this.add.sprite(0, 0, 'MainMenu');
@@ -121,7 +121,6 @@ MainMenu.prototype = {
 		{
 			if(this.currentButton == 0)
 			{
-				this.water.fadeTo(200, 0);
 				console.log("water sound fading");
 
 				if(this.cache.isSoundDecoded('water')) {
@@ -186,6 +185,7 @@ var Cutscene = function(game) {};
 Cutscene.prototype = {
 
 	init: function(){
+
 	},
 
 	preload: function() {
@@ -204,9 +204,12 @@ Cutscene.prototype = {
 
 		this.load.path = 'assets/audio/';
 		game.load.audio('asteroid', ['asteroid.wav']);
+
 	},
 
 	create: function() {
+
+		game.water.fadeOut(800);
 
 			//display image
 		this.menu = this.add.sprite(0, 3000, 'spaceBG');
@@ -246,9 +249,10 @@ Cutscene.prototype = {
 
 		game.camera.follow(this.whaleBaby, Phaser.Camera.FOLLOW_TOPDOWN, .25, .25);
 
-		this.asteroid = game.add.audio('asteroid');
-		this.asteroid.volume = 0.5;
-		this.asteroid.fadeIn(200);
+		game.asteroid = game.add.audio('asteroid');
+		game.asteroid.volume = 0.5;
+		game.asteroid.play('', 0, 1, false);
+		game.asteroid.fadeIn(200);
 
 	},
 
