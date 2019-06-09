@@ -121,9 +121,14 @@ MainMenu.prototype = {
 		{
 			if(this.currentButton == 0)
 			{
-				this.water.fadeOut(200);
+				this.water.fadeTo(200, 0);
+				console.log("water sound fading");
 
-				this.state.start('Cutscene');
+				if(this.cache.isSoundDecoded('water')) {
+
+					this.state.start('Cutscene');
+
+				}
 			}
 			else if(this.currentButton == 1)
 			{
@@ -196,6 +201,9 @@ Cutscene.prototype = {
 		this.load.image('whaleMom', 'SpaceWhale.png');
 		this.load.image('whaleBaby', 'frame0000.png');
 		this.load.image('asteroid', 'Asteroid.png');
+
+		this.load.path = 'assets/audio/';
+		game.load.audio('asteroid', ['asteroid.wav']);
 	},
 
 	create: function() {
@@ -237,6 +245,10 @@ Cutscene.prototype = {
 		this.launched = false;
 
 		game.camera.follow(this.whaleBaby, Phaser.Camera.FOLLOW_TOPDOWN, .25, .25);
+
+		this.asteroid = game.add.audio('asteroid');
+		this.asteroid.volume = 0.5;
+		this.asteroid.fadeIn(200);
 
 	},
 
@@ -408,9 +420,21 @@ Play.prototype = {
 		this.planet2 = new Planet(game, 1200, 500, 'planet2', this.whale, this.VOID_ACCELERATION, this.MAX_VELOCITY);
 		game.add.existing(this.planet2);
 
+		this.ring = this.add.sprite(1200, 500, 'ring');
+		this.ring.anchor.setTo(0.5);	//set anchor
+		this.ring.scale.setTo(1.25);
+		this.ring.alpha = 0.5;						// make semi-transparent
+
+
 		//add planet 3
 		this.planet3 = new Planet(game, 1750, 500, 'planet3', this.whale, this.VOID_ACCELERATION, this.MAX_VELOCITY);
 		game.add.existing(this.planet3);
+
+		this.ring = this.add.sprite(1750, 500, 'ring');
+		this.ring.anchor.setTo(0.5);	//set anchor
+		this.ring.scale.setTo(1.25);
+		this.ring.alpha = 0.5;						// make semi-transparent
+
 
 		//add black hole1
 		this.blackHole1 = new BlackHole(game, 2300, 500, 'hole', this.whale, this.VOID_ACCELERATION, this.MAX_VELOCITY);
@@ -595,7 +619,6 @@ Play.prototype = {
 		// 3. the shape from this P2 body that caused the contact
 		// 4. the shape from the contact P2 body
 		// 5. the contact equation data array
-		this.beats.fadeOut(500);
 
 		let info = {
 			'body': body,
