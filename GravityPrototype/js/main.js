@@ -381,9 +381,6 @@ Play.prototype = {
 		this.whale.scale.setTo(.25, .25);
 
 
-		//set world bounds
-
-
 		//add planet 1
 		this.planet1 = new Planet(game, 600, 500, 'planet1', this.whale, this.VOID_ACCELERATION, this.MAX_VELOCITY);
 		game.add.existing(this.planet1);
@@ -542,7 +539,8 @@ Play.prototype = {
 		//passing the finish line
 		if(this.whale.position.y > 900)
 		{
-			this.starBar.decreaseHealth();
+			this.whale.destroy();
+			this.state.start("GameOver");
 		}
 
 		if(this.whale.x > 600 && !this.tut1)
