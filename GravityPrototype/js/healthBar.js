@@ -1,13 +1,13 @@
 function HealthBar(game, xPos, yPos, key) {
 
-	Phaser.Sprite.call(this, game, xPos, yPos, key);
-	this.health1 = game.add.sprite(xPos, yPos, key);
+	Phaser.Sprite.call(this, game, xPos, yPos, 'atlas', key);
+	this.health1 = game.add.sprite(xPos, yPos, 'atlas', key);
 	this.health1.fixedToCamera = true;
 
-	this.health2 = game.add.sprite(xPos + this.health1.width + 20, yPos, key);
+	this.health2 = game.add.sprite(xPos + this.health1.width + 20, yPos, 'atlas', key);
 	this.health2.fixedToCamera = true;
 
-	this.health3 = game.add.sprite(xPos + (this.health1.width*2) + 40, yPos, key);
+	this.health3 = game.add.sprite(xPos + (this.health1.width*2) + 40, yPos, 'atlas', key);
 	this.health3.fixedToCamera = true;
 }
 

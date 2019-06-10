@@ -1,6 +1,6 @@
 //obstacles that kill the player
 function BlackHole(game, xPos, yPos, key, player, acceleration, maxVel) {
-	Phaser.Sprite.call(this, game, xPos, yPos, key);
+	Phaser.Sprite.call(this, game, xPos, yPos, 'atlas', key);
 
 	game.physics.p2.enable(this, false);
 	this.body.setCircle(50);

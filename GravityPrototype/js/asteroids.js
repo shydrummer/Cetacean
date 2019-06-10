@@ -8,7 +8,7 @@ function Asteroids(game, key, scrnwidth, scrnheight) {
 	var yPos = Math.random() * scrnheight;
 
 	//make this object ingerit from sprite
-	Phaser.Sprite.call(this, game, xPos, yPos, key);
+	Phaser.Sprite.call(this, game, xPos, yPos, 'atlas', key);
 
 	//change properties of sprite
 	this.scale.setTo(.125,.125);

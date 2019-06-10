@@ -1,6 +1,6 @@
 function Planet(game, xPos, yPos, key, player, acceleration, maxVel) {
 	//extend sprite object
-	Phaser.Sprite.call(this, game, xPos, yPos, key);
+	Phaser.Sprite.call(this, game, xPos, yPos, 'atlas', key);
 
 	//has physics can't move
 	game.physics.p2.enable(this, false);
@@ -9,7 +9,7 @@ function Planet(game, xPos, yPos, key, player, acceleration, maxVel) {
 
 	//set anchor and scale
 	this.anchor.set(.5, .5);
-	if(key == 'planet1')
+	if(key == 'littleplanetVariation1' || key == 'littleplanetVariation4')
 	{
 		this.scale.setTo(.25);
 	}
@@ -84,7 +84,7 @@ Planet.prototype.update = function() {
 		this.orbiting = false;
 		game.physics.p2.removeConstraint(this.constraint);
 		this.constraint = null;
-		game.camera.follow(this.playerRef, Phaser.Camera.FOLLOW_LOCKON, .05, .05);
+		game.camera.follow(this.playerRef, Phaser.Camera.FOLLOW_TOPDOWN, .05, .05);
 	}
 
 }
