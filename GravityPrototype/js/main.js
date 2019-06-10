@@ -129,7 +129,7 @@ MainMenu.prototype = {
 			}
 			else if(this.currentButton == 2)
 			{
-				//go to credits/social links
+				this.state.start("Credits");
 			}
 		}
 
@@ -669,6 +669,31 @@ GameOver.prototype = {
 	}
 }
 
+var Credits = function(game, beats) {};
+Credits.prototype = {
+
+	init: function(){
+
+		//this.beats.fadeOut(500);
+
+	},
+
+	preload: function() {
+
+	},
+
+	create: function() {
+		//display image
+		this.credits = this.add.sprite(0, 0, 'atlas', 'Credits');
+	},
+
+	update: function() {
+		//check if restarting game
+		if(this.input.keyboard.isDown(Phaser.Keyboard.SPACEBAR)){
+			this.state.start('MainMenu');
+		}
+	}
+}
 
 var Victory = function(game) {};
 Victory.prototype = {
@@ -683,11 +708,15 @@ Victory.prototype = {
 	},
 
 	create: function() {
+		//background
 		this.splashScreen = this.add.sprite(0, 0, 'atlas', 'VictoryScreen');
+
+		//whaleBaby
 		this.whaleBaby = this.add.sprite(600, 375, 'atlas', 'frame0000');
 		this.whaleBaby.scale.setTo(.25);
 		this.whaleBaby.anchor.set(.5);
 
+		//whaleMom
 		this.whaleMom = this.add.sprite(600, 250, 'atlas', 'SpaceWhale');
 		this.whaleMom.scale.setTo(.75);
 		this.whaleMom.anchor.setTo(.5);
@@ -716,4 +745,5 @@ game.state.add('Cutscene', Cutscene);
 game.state.add('Play', Play);
 game.state.add('GameOver', GameOver);
 game.state.add('Victory', Victory);
+game.state.add('Credits', Credits);
 game.state.start('MainMenu');
