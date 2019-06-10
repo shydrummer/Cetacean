@@ -539,6 +539,9 @@ Play.prototype = {
 		this.tut1 = false;
 		this.tut2 = false;
 		this.tut3 = false;
+
+		var babyPlayed = false;
+
 	},
 
 	update: function() {
@@ -588,24 +591,33 @@ Play.prototype = {
 		}
 		//END REMOVE
 
-		if(this.whale.position.x == 2500) { //baby whale cry
+		if(this.whale.position.x > 2500) { //baby whale cry
 
+			var babyCry = true;
+			console.log('activate cry');
+
+			if(babyCry && !babyPlayed) {
 
 			game.baby.fadeIn(100);
 			game.baby.play('', 0, 1, true);
 			//game.baby.volume = 0.5;
 			console.log('baby whale cry');
+		    babyPlayed = true;
+
+		}
 
 
 		}
 
-		if(this.whale.position.x == 5000) { //mother whale cry
+		if(this.whale.position.x >= 5000) { //mother whale cry
 
 			game.mommy.fadeIn(100);
 			game.mommy.play('', 0, 1, true);
 			game.mommy.volume = 0.5;
 
 		}
+
+
 
 
 		//out of bounds
@@ -698,7 +710,7 @@ GameOver.prototype = {
 
 	update: function() {
 		//check if restarting game
-		if(this.input.keyboard.isDown(Phaser.Keyboard.SPACEBAR)){
+		if(this.input.keyboard.isDown(Phaser.Keyboard.SPACEBAR)) {
 			game.beats.stop();
 			this.state.start('Play');
 		}
