@@ -22,10 +22,7 @@ MainMenu.prototype = {
 	},
 
 	create: function() {
-		//audio for menu
-		game.water = game.add.audio('water');
-		game.water.volume = 0.5;
-		game.water.play('', 0, 1, true);
+
 
 		//display images
 		this.menu = this.add.sprite(0, 0, 'atlas', 'MainMenu');
@@ -60,6 +57,11 @@ MainMenu.prototype = {
 		this.goingUpA = true;
 		this.goingUpB = false;
 		this.launched = false;
+
+				//audio for menu
+		game.water = game.add.audio('water');
+		game.water.play('', 0, 1, true);
+		game.water.volume = 0.2;
 	},
 
 	update: function(){
@@ -113,7 +115,7 @@ MainMenu.prototype = {
 		{
 			if(this.currentButton == 0)
 			{
-				console.log("water sound fading");
+				//console.log("water sound fading");
 
 				if(this.cache.isSoundDecoded('water')) {
 
@@ -184,8 +186,6 @@ Cutscene.prototype = {
 	},
 
 	create: function() {
-		//audio from prev scene: fade out
-		game.water.fadeOut(800);
 
 		//display images
 		this.menu = this.add.sprite(0, 3000, 'atlas', 'Space BG');
@@ -228,11 +228,6 @@ Cutscene.prototype = {
 		//follow the baby with the camera
 		game.camera.follow(this.whaleBaby, Phaser.Camera.FOLLOW_TOPDOWN, .25, .25);
 
-		//asteroid audio
-		game.asteroid = game.add.audio('asteroid');
-		game.asteroid.volume = 0.5;
-		game.asteroid.play('', 0, 1, false);
-		game.asteroid.fadeIn(200);
 
 		//animation
 		this.whaleBaby.animations.add('swim', Phaser.Animation.generateFrameNames('frame', 0, 4, '', 4), 10, true);
@@ -304,21 +299,38 @@ Cutscene.prototype = {
 		//launch into the sky
 		if(this.input.keyboard.justPressed(Phaser.Keyboard.SPACEBAR))
 		{
+
+			//audio from prev scene: fade out
+			game.water.fadeOut(2000);
+
 			this.whaleMom.body.velocity.y = -300;
 			this.whaleBaby.body.velocity.y = -300;
 			this.launched = true;
 			game.camera.follow(this.whaleMom, Phaser.Camera.FOLLOW_TOPDOWN, .25, .25);
+
+			//asteroid audio
+			game.asteroid = game.add.audio('asteroid');
+			game.asteroid.volume = 0.5;
+			//game.asteroid.play('', 0, 1, false);
+			game.asteroid.fadeIn(5000);
+			console.log("asteroid");
+
+
+
 
 		}
 
 		//start asteroid shower, seperate mom from baby
 		if(this.whaleMom.y < 3600)
 		{
+
 			this.asteroidShower = new Asteroids(game, 'Asteroid', 1200, 4200);
 			this.game.add.existing(this.asteroidShower);
 			this.whaleBaby.body.velocity.y = 0;
 			this.whaleMom.body.velocity.x = 400;
 			game.camera.follow(this.whaleBaby, Phaser.Camera.FOLLOW_TOPDOWN, .05, .05);
+
+
 		}
 
 		//distance between mom and baby
@@ -350,19 +362,28 @@ Play.prototype = {
 	},
 
 	preload: function() {
+
+		game.asteroid.fadeOut(900);
 		//load audio
 		this.load.path = 'assets/audio/';
 		game.load.audio('theme', ['whale-music.mp3']);
 		game.load.audio('launch', ['launch1.mp3']);
 		game.load.audio('orbit', ['orbit1.mp3']);
+		game.load.audio('mommy', ['mother.wav']);
+		game.load.audio('baby', ['baby.wav']);
 
 	},
 
 	create: function() {
 		//create audio
-		this.beats = game.add.audio('theme');
-		this.beats.play('', 0, 1, true);
-		this.beats.volume = 0.5;
+		game.beats = game.add.audio('theme');
+
+		game.beats.fadeIn(1000);
+		game.beats.play('', 0, 1, true);
+		game.beats.volume = 0.5;
+
+		game.mommy = game.add.audio('mommy');
+		game.baby = game.add.audio('baby');
 
 		//place background
 		this.spaceBG = this.add.sprite(0, 0, 'atlas', 'Space BG');
@@ -567,6 +588,25 @@ Play.prototype = {
 		}
 		//END REMOVE
 
+		if(this.whale.position.x == 2500) { //baby whale cry
+
+
+			game.baby.fadeIn(100);
+			game.baby.play('', 0, 1, true);
+			//game.baby.volume = 0.5;
+			console.log('baby whale cry');
+
+
+		}
+
+		if(this.whale.position.x == 5000) { //mother whale cry
+
+			game.mommy.fadeIn(100);
+			game.mommy.play('', 0, 1, true);
+			game.mommy.volume = 0.5;
+
+		}
+
 
 		//out of bounds
 		if(this.whale.position.y > 900)
@@ -638,12 +678,12 @@ Play.prototype = {
 	}
 }
 
-var GameOver = function(game, beats) {};
+var GameOver = function(game) {};
 GameOver.prototype = {
 
 	init: function(){
 
-		//this.beats.fadeOut(500);
+		game.beats.fadeOut(5000);
 
 	},
 
