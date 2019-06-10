@@ -699,6 +699,7 @@ GameOver.prototype = {
 	update: function() {
 		//check if restarting game
 		if(this.input.keyboard.isDown(Phaser.Keyboard.SPACEBAR)){
+			game.beats.stop();
 			this.state.start('Play');
 		}
 	}
@@ -769,6 +770,7 @@ Victory.prototype = {
 	update: function() {
 		//check if restarting game
 		if(this.input.keyboard.isDown(Phaser.Keyboard.SPACEBAR)){
+			game.beats.stop();
 			this.state.start('Play');
 		}
 	}
