@@ -55,12 +55,20 @@ MainMenu.prototype = {
 		this.whaleBaby = this.add.sprite(75, 350, 'atlas', 'frame0000');
 		this.whaleBaby.scale.setTo(.5);
 
+		//animation
+		this.whaleBaby.animations.add('swim', Phaser.Animation.generateFrameNames('frame', 0, 4, '', 4), 10, true);
+		this.whaleMom.animations.add('mom', Phaser.Animation.generateFrameNames('mom', 0, 4, '', 4), 10, true);
+
 		this.goingUpA = true;
 		this.goingUpB = false;
 		this.launched = false;
 	},
 
 	update: function(){
+		//play animations
+		this.whaleBaby.animations.play('swim');
+		this.whaleMom.animations.play('mom');
+
 		//Makes waves move in background
 		this.wave1.position.x --;
 		this.wave3.position.x --;
@@ -228,9 +236,17 @@ Cutscene.prototype = {
 		game.asteroid.play('', 0, 1, false);
 		game.asteroid.fadeIn(200);
 
+		//animation
+		this.whaleBaby.animations.add('swim', Phaser.Animation.generateFrameNames('frame', 0, 4, '', 4), 10, true);
+		this.whaleMom.animations.add('mom', Phaser.Animation.generateFrameNames('mom', 0, 4, '', 4), 10, true);
+
 	},
 
 	update: function() {
+		//play animations
+		this.whaleBaby.animations.play('swim');
+		this.whaleMom.animations.play('mom');
+
 		//make waves drift
 		this.wave1.position.x --;
 		this.wave3.position.x --;
@@ -661,13 +677,29 @@ Victory.prototype = {
 	},
 
 	preload: function() {
-		//load assets
-		//this.load.path = 'assets/img/';
-		//this.load.image('OverScreen', 'GameOverScreen.png');
+		//load images
+		this.load.path = 'assets/img/';
+		game.load.atlas('atlas', 'spritesheet.png', 'sprites.json');
 	},
 
 	create: function() {
-		this.gameOver = this.add.sprite(0, 0, 'atlas', 'VictoryScreen');
+		this.splashScreen = this.add.sprite(0, 0, 'atlas', 'VictoryScreen');
+		this.whaleBaby = this.add.sprite(600, 375, 'atlas', 'frame0000');
+		this.whaleBaby.scale.setTo(.25);
+		this.whaleBaby.anchor.set(.5);
+
+		this.whaleMom = this.add.sprite(600, 250, 'atlas', 'SpaceWhale');
+		this.whaleMom.scale.setTo(.75);
+		this.whaleMom.anchor.setTo(.5);
+
+		//animation
+		this.babyAnim = this.whaleBaby.animations.add('baby', Phaser.Animation.generateFrameNames('baby', 0, 26, '', 4), 5, false);
+		this.momAnim = this.whaleMom.animations.add('momend', Phaser.Animation.generateFrameNames('momend', 0, 24, '', 4), 4, true);
+		this.babyAnim.loop = false;
+		this.momAnim.loop = false;
+
+		this.whaleBaby.animations.play('baby', 5, false);
+		this.whaleMom.animations.play('momend', 4, false);
 	},
 
 	update: function() {
