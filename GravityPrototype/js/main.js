@@ -35,17 +35,15 @@ MainMenu.prototype = {
 		this.wave4 = this.add.sprite(-1200, 155, 'atlas', 'BottomWaves');
 		this.wave1 = this.add.sprite(0, 155, 'atlas', 'TopWaves');
 		this.wave3 = this.add.sprite(1200, 155, 'atlas', 'TopWaves');
-		this.testButton1 = this.add.sprite(800, 275, 'atlas', 'PlayButton');
-		this.testButton2 = this.add.sprite(800, 375, 'atlas', 'InstructionButton');
-		this.testButton3 = this.add.sprite(800, 475, 'atlas', 'CreditsButton');
+		this.testButton1 = this.add.sprite(800, 325, 'atlas', 'PlayButton');
+		this.testButton3 = this.add.sprite(800, 425, 'atlas', 'CreditsButton');
 		//end display images
 
 		//create framework for button logic
-		this.buttons = [this.testButton1, this.testButton2, this.testButton3];
+		this.buttons = [this.testButton1, this.testButton3];
 
 		this.buttons[0].tint = 0xffffff;
 		this.buttons[1].tint = 0xA0A0A0;
-		this.buttons[2].tint = 0xA0A0A0;
 
 		this.currentButton = 0;
 
