@@ -2,8 +2,8 @@
 function BlackHole(game, xPos, yPos, key, player, acceleration, maxVel) {
 	Phaser.Sprite.call(this, game, xPos, yPos, 'atlas', key);
 
-	game.physics.p2.enable(this, false);
-	this.body.setCircle(50);
+	game.physics.p2.enable(this, true);
+	this.body.setCircle(60);
 	this.body.static = true;
 
 	this.anchor.set(.5, .5);

@@ -627,10 +627,7 @@ Play.prototype = {
 		};
 		// make sure body isn't null (i.e., the wall)
 		if(body) {
-			if(body.sprite.key === 'black hole')
-			{
-				this.healthStatus = this.starBar.decreaseHealth();
-			}
+			this.healthStatus = this.starBar.decreaseHealth();
 
 			if(this.healthStatus == -1)
 			{
