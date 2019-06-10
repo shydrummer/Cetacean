@@ -588,7 +588,7 @@ Play.prototype = {
 		}
 		//END REMOVE
 
-		if(this.whale.position.x == 2500) { //baby whale cry
+		if(this.whale.position.x >= 2500) { //baby whale cry
 
 
 			game.baby.fadeIn(100);
