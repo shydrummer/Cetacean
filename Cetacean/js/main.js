@@ -125,10 +125,6 @@ MainMenu.prototype = {
 			}
 			else if(this.currentButton == 1)
 			{
-				//go to directions
-			}
-			else if(this.currentButton == 2)
-			{
 				this.state.start("Credits");
 			}
 		}
@@ -574,19 +570,6 @@ Play.prototype = {
 		this.blackHole6.body.rotation += this.rotateSpeed;
 		this.blackHole7.body.rotation += this.rotateSpeed;
 
-		//WHALE MVMT FOR TESTING ONLY
-		//REMOVE FOR FINAL GAME
-		if(this.cursors.left.isDown) {
-			this.whale.body.velocity.x = -this.MAX_VELOCITY;
-		} else if(this.cursors.right.isDown) {
-			this.whale.body.velocity.x = this.MAX_VELOCITY;
-		}
-		if(this.cursors.up.isDown) {
-			this.whale.body.velocity.y = -this.MAX_VELOCITY;
-		} else if(this.cursors.down.isDown) {
-			this.whale.body.velocity.y = this.MAX_VELOCITY;
-		}
-		//END REMOVE
 
 		if(this.whale.position.x >= 2500) { //baby whale cry
 
@@ -610,6 +593,11 @@ Play.prototype = {
 
 		//out of bounds
 		if(this.whale.position.y > 900)
+		{
+			this.whale.destroy();
+			this.state.start("GameOver");
+		}
+		else if(this.whale.position.y < 100)
 		{
 			this.whale.destroy();
 			this.state.start("GameOver");
